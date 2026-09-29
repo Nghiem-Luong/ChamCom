@@ -5,6 +5,7 @@ from Views.menu_view import hien_thi_menu
 
 from Views.cham_com_view import hien_thi_cham_com
 from Views.nguoi_an_view import hien_thi_nguoi_an
+from Views.bo_phan_view import hien_thi_bo_phan
 from Views.nop_tien_view import hien_thi_nop_tien
 from Views.thong_ke_view import hien_thi_thong_ke
 from Views.bao_cao_view import hien_thi_bao_cao
@@ -71,6 +72,11 @@ elif lua_chon == "🍚 Chấm cơm hôm nay":
 elif lua_chon == "👩‍🍳 Quản lý người ăn":
 
     hien_thi_nguoi_an()
+
+
+elif lua_chon == "🏢 Quản lý bộ phận":
+
+    hien_thi_bo_phan()
 
 
 elif lua_chon == "💰 Nộp tiền & công nợ":

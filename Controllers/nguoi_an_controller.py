@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from Models.nguoi_an_model import NguoiAnModel
 from Models.audit_log_model import AuditLogModel
 
@@ -5,16 +7,24 @@ from Models.audit_log_model import AuditLogModel
 class NguoiAnController:
 
     @staticmethod
-    def them_nguoi_an(ho_ten, sdt=None):
+    def them_nguoi_an(
+        ho_ten,
+        sdt=None,
+        bo_phan_id=None
+    ):
         try:
             nguoi_an_id = NguoiAnModel.them_nguoi_an(
                 ho_ten=ho_ten,
-                sdt=sdt
+                sdt=sdt,
+                bo_phan_id=bo_phan_id
             )
 
             AuditLogModel.ghi_log(
                 hanh_dong="THÊM NGƯỜI ĂN",
-                mo_ta=f"Thêm người ăn: {ho_ten}"
+                mo_ta=(
+                    f"Thêm người ăn: {ho_ten}"
+                    f" | Bộ phận ID: {bo_phan_id}"
+                )
             )
 
             return {
@@ -66,11 +76,30 @@ class NguoiAnController:
             }
 
     @staticmethod
+    def lay_theo_bo_phan(bo_phan_id):
+        try:
+            return {
+                "success": True,
+                "data": NguoiAnModel.lay_theo_bo_phan(
+                    bo_phan_id
+                )
+            }
+
+        except Exception as error:
+            return {
+                "success": False,
+                "message": f"Không thể lấy danh sách theo bộ phận: {error}",
+                "data": []
+            }
+
+    @staticmethod
     def tim_kiem(ho_ten):
         try:
             return {
                 "success": True,
-                "data": NguoiAnModel.tim_theo_ten(ho_ten)
+                "data": NguoiAnModel.tim_theo_ten(
+                    ho_ten
+                )
             }
 
         except Exception as error:
@@ -81,12 +110,18 @@ class NguoiAnController:
             }
 
     @staticmethod
-    def cap_nhat(nguoi_an_id, ho_ten, sdt=None):
+    def cap_nhat(
+        nguoi_an_id,
+        ho_ten,
+        sdt=None,
+        bo_phan_id=None
+    ):
         try:
             so_dong = NguoiAnModel.cap_nhat(
                 nguoi_an_id=nguoi_an_id,
                 ho_ten=ho_ten,
-                sdt=sdt
+                sdt=sdt,
+                bo_phan_id=bo_phan_id
             )
 
             if so_dong == 0:
@@ -97,7 +132,10 @@ class NguoiAnController:
 
             AuditLogModel.ghi_log(
                 hanh_dong="CẬP NHẬT NGƯỜI ĂN",
-                mo_ta=f"Cập nhật người ăn ID: {nguoi_an_id}"
+                mo_ta=(
+                    f"Cập nhật người ăn ID: {nguoi_an_id}"
+                    f" | Bộ phận ID: {bo_phan_id}"
+                )
             )
 
             return {
@@ -132,7 +170,10 @@ class NguoiAnController:
 
             AuditLogModel.ghi_log(
                 hanh_dong="NGỪNG HOẠT ĐỘNG",
-                mo_ta=f"Ngừng hoạt động người ăn ID: {nguoi_an_id}"
+                mo_ta=(
+                    f"Ngừng hoạt động người ăn ID: "
+                    f"{nguoi_an_id}"
+                )
             )
 
             return {
@@ -161,7 +202,10 @@ class NguoiAnController:
 
             AuditLogModel.ghi_log(
                 hanh_dong="KÍCH HOẠT LẠI",
-                mo_ta=f"Kích hoạt lại người ăn ID: {nguoi_an_id}"
+                mo_ta=(
+                    f"Kích hoạt lại người ăn ID: "
+                    f"{nguoi_an_id}"
+                )
             )
 
             return {

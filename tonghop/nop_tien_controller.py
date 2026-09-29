@@ -1137,21 +1137,14 @@ class NopTienController:
 
             result = []
 
-            first_monday = (
-                start
-                - timedelta(days=start.weekday())
-            )
+            current = start
 
-            last_saturday = (
-                end
-                + timedelta(days=5 - end.weekday())
-            )
+            while current <= end:
 
-            current = first_monday
-
-            while current <= last_saturday:
-
-                week_end = current + timedelta(days=5)
+                week_end = min(
+                    current + timedelta(days=6),
+                    end
+                )
 
                 summary = (
                     NopTienController
@@ -1188,7 +1181,7 @@ class NopTienController:
 
                 current = (
                     week_end
-                    + timedelta(days=2)
+                    + timedelta(days=1)
                 )
 
             return {
@@ -1601,25 +1594,15 @@ class NopTienController:
         if not start or not end:
             return pd.DataFrame()
 
-        # Tuần chuẩn của công ty: Thứ 2 đến Thứ 7.
-        # Khi khoảng lọc là tháng, tuần đầu/cuối có thể nằm ngoài tháng
-        # để giữ đúng tuần lịch thực tế, giống logic báo cáo.
-        first_monday = (
-            start
-            - timedelta(days=start.weekday())
-        )
-
-        last_saturday = (
-            end
-            + timedelta(days=5 - end.weekday())
-        )
-
-        current = first_monday
+        current = start
         week_number = 1
 
-        while current <= last_saturday:
+        while current <= end:
 
-            week_end = current + timedelta(days=5)
+            week_end = min(
+                current + timedelta(days=6),
+                end
+            )
 
             opening = 0
             due = 0
@@ -1695,7 +1678,7 @@ class NopTienController:
 
             current = (
                 week_end
-                + timedelta(days=2)
+                + timedelta(days=1)
             )
 
             week_number += 1
@@ -1817,7 +1800,7 @@ class NopTienController:
                             "Đã ăn"
                             if len(row) > 5
                             and row[5]
-                            else "Đăng ký"
+                            else "Không ăn"
                         ),
                         "Ghi chú": (
                             row[7]
@@ -1955,12 +1938,10 @@ class NopTienController:
     # ==========================================================
 
     @staticmethod
-    @staticmethod
-    @staticmethod
     def tao_dataframe_van_de(
-            people,
-            tu_ngay=None,
-            den_ngay=None
+        people,
+        tu_ngay=None,
+        den_ngay=None
     ):
 
         rows = []
@@ -1983,9 +1964,15 @@ class NopTienController:
                     rows.append(
                         {
                             "Loại": "Công nợ",
-                            "Người ID": item["Người ID"],
-                            "Người": item["Người"],
-                            "Bộ phận": item["Bộ phận"],
+                            "Người ID": item[
+                                "Người ID"
+                            ],
+                            "Người": item[
+                                "Người"
+                            ],
+                            "Bộ phận": item[
+                                "Bộ phận"
+                            ],
                             "Số tiền": abs(
                                 item["Còn nợ"]
                             ),
@@ -1993,7 +1980,9 @@ class NopTienController:
                                 "Còn công nợ "
                                 "chưa thanh toán"
                             ),
-                            "Trạng thái": "Cần xử lý"
+                            "Trạng thái": (
+                                "Cần xử lý"
+                            )
                         }
                     )
 
@@ -2002,10 +1991,18 @@ class NopTienController:
                     rows.append(
                         {
                             "Loại": "Số dư",
-                            "Người ID": item["Người ID"],
-                            "Người": item["Người"],
-                            "Bộ phận": item["Bộ phận"],
-                            "Số tiền": item["Nộp thừa"],
+                            "Người ID": item[
+                                "Người ID"
+                            ],
+                            "Người": item[
+                                "Người"
+                            ],
+                            "Bộ phận": item[
+                                "Bộ phận"
+                            ],
+                            "Số tiền": item[
+                                "Nộp thừa"
+                            ],
                             "Vấn đề": (
                                 "Người ăn đang có "
                                 "số tiền dư"
@@ -2016,6 +2013,7 @@ class NopTienController:
                         }
                     )
 
+        # Suất ăn phát sinh
         extra_df = (
             NopTienController
             .tao_dataframe_suat_an_phat_sinh(
@@ -2025,6 +2023,7 @@ class NopTienController:
         )
 
         if not extra_df.empty:
+
             total_extra = float(
                 pd.to_numeric(
                     extra_df["Số tiền"],
@@ -2035,7 +2034,7 @@ class NopTienController:
             rows.append(
                 {
                     "Loại": "Suất ăn phát sinh",
-                    "Người ID": pd.NA,
+                    "Người ID": "",
                     "Người": "",
                     "Bộ phận": "",
                     "Số tiền": total_extra,
@@ -2043,22 +2042,130 @@ class NopTienController:
                         "Có suất ăn phát sinh "
                         "chưa gắn với người ăn"
                     ),
-                    "Trạng thái": "Cần đối chiếu"
+                    "Trạng thái": (
+                        "Cần đối chiếu"
+                    )
                 }
             )
 
-        df = pd.DataFrame(rows)
+        return pd.DataFrame(rows)
 
-        if "Người ID" in df.columns:
-            df["Người ID"] = pd.to_numeric(
-                df["Người ID"],
-                errors="coerce"
-            ).astype("Int64")
+    @staticmethod
+    def lay_suat_an_phat_sinh_chi_tiet(tu_ngay=None, den_ngay=None):
+        from Models.suat_an_phat_sinh_model import SuatAnPhatSinhModel
+        return SuatAnPhatSinhModel.lay_bao_cao_thanh_toan(tu_ngay, den_ngay)
 
-        if "Số tiền" in df.columns:
-            df["Số tiền"] = pd.to_numeric(
-                df["Số tiền"],
-                errors="coerce"
-            ).fillna(0.0)
+    @staticmethod
+    def them_thanh_toan_suat_an_phat_sinh(suat_an_phat_sinh_id, ngay_thu, so_tien, hinh_thuc="Tiền mặt", ghi_chu=None):
+        from Models.suat_an_phat_sinh_model import SuatAnPhatSinhModel
+        try:
+            payment_id = SuatAnPhatSinhModel.them_thanh_toan(
+                suat_an_phat_sinh_id, ngay_thu, so_tien, hinh_thuc, ghi_chu
+            )
+            try:
+                AuditLogModel.them(
+                    "THU TIỀN SUẤT ĂN KHÁCH",
+                    f"Phát sinh ID: {suat_an_phat_sinh_id}, số tiền: {float(so_tien):,.0f} VNĐ, ngày thu: {ngay_thu}, hình thức: {hinh_thuc}"
+                )
+            except Exception:
+                pass
+            return {"success": True, "message": "Thu tiền khách thành công.", "id": payment_id}
+        except ValueError as error:
+            return {"success": False, "message": str(error)}
+        except Exception as error:
+            return {"success": False, "message": f"Có lỗi xảy ra: {error}"}
 
-        return df
+    @staticmethod
+    def lay_thanh_toan_suat_an_phat_sinh(suat_an_phat_sinh_id):
+        from Models.suat_an_phat_sinh_model import SuatAnPhatSinhModel
+        try:
+            return {"success": True, "data": SuatAnPhatSinhModel.lay_thanh_toan(suat_an_phat_sinh_id)}
+        except Exception as error:
+            return {"success": False, "message": f"Không thể lấy lịch sử thu: {error}", "data": []}
+
+    @staticmethod
+    def tim_thanh_toan_suat_an_phat_sinh(payment_id):
+        from Models.suat_an_phat_sinh_model import SuatAnPhatSinhModel
+        try:
+            data = SuatAnPhatSinhModel.tim_thanh_toan_theo_id(payment_id)
+            return {"success": data is not None, "data": data, "message": "" if data is not None else "Không tìm thấy giao dịch thu."}
+        except Exception as error:
+            return {"success": False, "message": f"Không thể lấy giao dịch thu: {error}", "data": None}
+
+    @staticmethod
+    def cap_nhat_thanh_toan_suat_an_phat_sinh(payment_id, suat_an_phat_sinh_id, ngay_thu, so_tien, hinh_thuc="Tiền mặt", ghi_chu=None):
+        from Models.suat_an_phat_sinh_model import SuatAnPhatSinhModel
+        try:
+            rows = SuatAnPhatSinhModel.cap_nhat_thanh_toan(
+                payment_id, suat_an_phat_sinh_id, ngay_thu, so_tien, hinh_thuc, ghi_chu
+            )
+            if rows > 0:
+                try:
+                    AuditLogModel.them(
+                        "SỬA THU TIỀN SUẤT ĂN KHÁCH",
+                        f"Giao dịch thu ID: {payment_id}, phát sinh ID: {suat_an_phat_sinh_id}, số tiền: {float(so_tien):,.0f} VNĐ"
+                    )
+                except Exception:
+                    pass
+            return {"success": rows > 0, "message": "Cập nhật giao dịch thu thành công." if rows > 0 else "Không có dữ liệu được thay đổi."}
+        except ValueError as error:
+            return {"success": False, "message": str(error)}
+        except Exception as error:
+            return {"success": False, "message": f"Có lỗi xảy ra: {error}"}
+
+    @staticmethod
+    def xoa_thanh_toan_suat_an_phat_sinh(payment_id):
+        from Models.suat_an_phat_sinh_model import SuatAnPhatSinhModel
+        try:
+            rows = SuatAnPhatSinhModel.xoa_thanh_toan(payment_id)
+            if rows > 0:
+                try:
+                    AuditLogModel.them(
+                        "XÓA THU TIỀN SUẤT ĂN KHÁCH",
+                        f"Xóa giao dịch thu ID: {payment_id}"
+                    )
+                except Exception:
+                    pass
+            return {"success": rows > 0, "message": "Đã xóa giao dịch thu." if rows > 0 else "Không tìm thấy giao dịch thu."}
+        except Exception as error:
+            return {"success": False, "message": f"Có lỗi xảy ra: {error}"}
+
+    @staticmethod
+    def tong_hop_suat_an_phat_sinh(tu_ngay=None, den_ngay=None):
+        from Models.suat_an_phat_sinh_model import SuatAnPhatSinhModel
+        try:
+            rows = SuatAnPhatSinhModel.lay_bao_cao_thanh_toan(tu_ngay, den_ngay)
+            total_due = sum(float(row[7] or 0) for row in rows)
+            total_paid = sum(float(row[8] or 0) for row in rows)
+            outstanding = total_due - total_paid
+            if abs(outstanding) < 0.01:
+                status = "Đã thu đủ"
+            elif outstanding > 0:
+                status = "Còn phải thu"
+            else:
+                status = "Thu thừa"
+            return {"success": True, "data": rows, "total_due": total_due, "total_paid": total_paid, "outstanding": outstanding, "status": status}
+        except Exception as error:
+            return {"success": False, "message": f"Không thể tổng hợp suất khách: {error}", "data": [], "total_due": 0, "total_paid": 0, "outstanding": 0}
+
+    @staticmethod
+    def tao_dataframe_suat_an_phat_sinh(tu_ngay=None, den_ngay=None):
+        rows = NopTienController.lay_suat_an_phat_sinh_chi_tiet(tu_ngay, den_ngay)
+        columns = ["Phát sinh ID", "Ngày ăn ID", "Ngày ăn", "Họ tên", "Đơn vị", "Số lượng", "Đơn giá", "Thành tiền", "Đã thu", "Ghi chú", "Ngày tạo"]
+        if not rows:
+            return pd.DataFrame(columns=columns + ["Còn phải thu", "Trạng thái"])
+        data = []
+        for row in rows:
+            due = float(row[7] or 0)
+            paid = float(row[8] or 0)
+            outstanding = due - paid
+            if abs(outstanding) < 0.01:
+                status = "Đã thu đủ"
+            elif paid <= 0.01:
+                status = "Chưa thu"
+            elif outstanding > 0:
+                status = "Thu một phần"
+            else:
+                status = "Thu thừa"
+            data.append(list(row) + [outstanding, status])
+        return pd.DataFrame(data, columns=columns + ["Còn phải thu", "Trạng thái"])
