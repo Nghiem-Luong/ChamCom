@@ -53,24 +53,12 @@ def hien_thi_bo_phan():
             "search": "🔎 Tìm kiếm",
             "search_placeholder": "Nhập tên bộ phận...",
 
-            "select": "Chọn bộ phận",
-            "select_placeholder": "Chọn một bộ phận...",
-
-            "actions": "Thao tác",
-            "edit": "✏️ Chỉnh sửa",
-            "stop": "⏸️ Ngừng hoạt động",
-            "activate": "🔄 Kích hoạt lại",
-
-            "edit_info": "✏️ Chỉnh sửa bộ phận",
             "save": "💾 Lưu thay đổi",
-            "cancel": "Hủy",
-
-            "confirm_stop": "Bạn có chắc muốn ngừng bộ phận này?",
-            "confirm_activate": "Bạn có muốn kích hoạt lại bộ phận này?",
+            "cancel_changes": "↩️ Hủy thay đổi",
+            "no_changes": "Không có thay đổi nào cần lưu.",
 
             "empty_name": "Tên bộ phận không được để trống.",
             "not_found": "🌷 Không tìm thấy bộ phận phù hợp.",
-            "no_selection": "Vui lòng chọn một bộ phận trước.",
 
             "status_active": "🟢 Đang hoạt động",
             "status_inactive": "⚪ Đã ngừng",
@@ -82,6 +70,11 @@ def hien_thi_bo_phan():
             "col_created": "Ngày tạo",
 
             "people_count": "người",
+
+            "save_success": "Đã lưu thay đổi",
+            "save_partial": "Đã lưu một phần thay đổi",
+            "operation_error": "Không thể cập nhật bộ phận.",
+
             "error": "Có lỗi xảy ra.",
         },
 
@@ -111,24 +104,12 @@ def hien_thi_bo_phan():
             "search": "🔎 Search",
             "search_placeholder": "Enter department name...",
 
-            "select": "Select department",
-            "select_placeholder": "Select a department...",
-
-            "actions": "Actions",
-            "edit": "✏️ Edit",
-            "stop": "⏸️ Disable",
-            "activate": "🔄 Activate",
-
-            "edit_info": "✏️ Edit department",
             "save": "💾 Save changes",
-            "cancel": "Cancel",
-
-            "confirm_stop": "Are you sure you want to disable this department?",
-            "confirm_activate": "Do you want to activate this department?",
+            "cancel_changes": "↩️ Cancel changes",
+            "no_changes": "There are no changes to save.",
 
             "empty_name": "Department name cannot be empty.",
             "not_found": "🌷 No matching department found.",
-            "no_selection": "Please select a department first.",
 
             "status_active": "🟢 Active",
             "status_inactive": "⚪ Inactive",
@@ -140,6 +121,11 @@ def hien_thi_bo_phan():
             "col_created": "Created",
 
             "people_count": "people",
+
+            "save_success": "Changes saved",
+            "save_partial": "Changes partially saved",
+            "operation_error": "Unable to update department.",
+
             "error": "An error occurred.",
         },
 
@@ -169,24 +155,12 @@ def hien_thi_bo_phan():
             "search": "🔎 搜索",
             "search_placeholder": "输入部门名称...",
 
-            "select": "选择部门",
-            "select_placeholder": "请选择部门...",
-
-            "actions": "操作",
-            "edit": "✏️ 编辑",
-            "stop": "⏸️ 停用",
-            "activate": "🔄 启用",
-
-            "edit_info": "✏️ 编辑部门",
             "save": "💾 保存修改",
-            "cancel": "取消",
-
-            "confirm_stop": "确定要停用该部门吗？",
-            "confirm_activate": "要重新启用该部门吗？",
+            "cancel_changes": "↩️ 取消修改",
+            "no_changes": "没有需要保存的修改。",
 
             "empty_name": "部门名称不能为空。",
             "not_found": "🌷 没有找到符合条件的部门。",
-            "no_selection": "请先选择一个部门。",
 
             "status_active": "🟢 正在使用",
             "status_inactive": "⚪ 已停用",
@@ -198,6 +172,11 @@ def hien_thi_bo_phan():
             "col_created": "创建时间",
 
             "people_count": "人",
+
+            "save_success": "修改已保存",
+            "save_partial": "部分修改已保存",
+            "operation_error": "无法更新部门。",
+
             "error": "发生错误。",
         },
     }
@@ -207,18 +186,10 @@ def hien_thi_bo_phan():
         texts["vi"],
     )
 
-    # ==========================================================
-    # HEADER
-    # ==========================================================
-
     hien_thi_header(
         text["header"],
         text["desc"],
     )
-
-    # ==========================================================
-    # LẤY DỮ LIỆU BỘ PHẬN
-    # ==========================================================
 
     try:
         danh_sach = BoPhanController.lay_tat_ca()
@@ -231,30 +202,27 @@ def hien_thi_bo_phan():
     if danh_sach is None:
         danh_sach = []
 
-    # ==========================================================
-    # LẤY DỮ LIỆU NGƯỜI ĂN
-    # ==========================================================
-
     try:
+
         nguoi_result = (
             NguoiAnController
             .lay_danh_sach()
         )
 
         if nguoi_result.get("success"):
+
             danh_sach_nguoi = nguoi_result.get(
                 "data",
                 [],
             )
+
         else:
+
             danh_sach_nguoi = []
 
     except Exception:
-        danh_sach_nguoi = []
 
-    # ==========================================================
-    # THỐNG KÊ
-    # ==========================================================
+        danh_sach_nguoi = []
 
     dang_hoat_dong = [
         bo_phan
@@ -276,6 +244,7 @@ def hien_thi_bo_phan():
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
+
         hien_thi_the(
             text["total"],
             len(danh_sach),
@@ -283,6 +252,7 @@ def hien_thi_bo_phan():
         )
 
     with col2:
+
         hien_thi_the(
             text["active"],
             len(dang_hoat_dong),
@@ -290,6 +260,7 @@ def hien_thi_bo_phan():
         )
 
     with col3:
+
         hien_thi_the(
             text["inactive"],
             len(da_ngung),
@@ -297,15 +268,12 @@ def hien_thi_bo_phan():
         )
 
     with col4:
+
         hien_thi_the(
             text["people"],
             len(danh_sach_nguoi),
             "👥",
         )
-
-    # ==========================================================
-    # THÊM BỘ PHẬN
-    # ==========================================================
 
     hien_thi_tieu_de_section(
         text["add"],
@@ -335,7 +303,9 @@ def hien_thi_bo_phan():
 
         if them_submit:
 
-            if not ten_bo_phan.strip():
+            ten_bo_phan = ten_bo_phan.strip()
+
+            if not ten_bo_phan:
 
                 st.warning(
                     text["empty_name"]
@@ -346,7 +316,7 @@ def hien_thi_bo_phan():
                 try:
 
                     BoPhanController.them_bo_phan(
-                        ten_bo_phan.strip()
+                        ten_bo_phan
                     )
 
                     st.session_state[
@@ -354,7 +324,7 @@ def hien_thi_bo_phan():
                     ] = {
                         "message": (
                             f"{text['add_button']} "
-                            f"• {ten_bo_phan.strip()}"
+                            f"• {ten_bo_phan}"
                         ),
                         "loai": "success",
                     }
@@ -366,10 +336,6 @@ def hien_thi_bo_phan():
                     st.error(
                         f"{text['error']} {error}"
                     )
-
-    # ==========================================================
-    # DANH SÁCH
-    # ==========================================================
 
     hien_thi_tieu_de_section(
         text["list"],
@@ -397,10 +363,6 @@ def hien_thi_bo_phan():
             ],
             key="bo_phan_status_filter",
         )
-
-    # ==========================================================
-    # LỌC
-    # ==========================================================
 
     danh_sach_hien_thi = danh_sach.copy()
 
@@ -440,10 +402,6 @@ def hien_thi_bo_phan():
 
         return
 
-    # ==========================================================
-    # ĐẾM NGƯỜI THEO BỘ PHẬN
-    # ==========================================================
-
     def dem_nguoi(bo_phan_id):
 
         return sum(
@@ -452,10 +410,6 @@ def hien_thi_bo_phan():
             if len(nguoi) > 3
             and nguoi[3] == bo_phan_id
         )
-
-    # ==========================================================
-    # DATAFRAME
-    # ==========================================================
 
     rows = []
 
@@ -471,10 +425,13 @@ def hien_thi_bo_phan():
         )
 
         if trang_thai_db == 1:
+
             trang_thai_text = (
                 text["status_active"]
             )
+
         else:
+
             trang_thai_text = (
                 text["status_inactive"]
             )
@@ -489,408 +446,301 @@ def hien_thi_bo_phan():
             }
         )
 
-    df = pd.DataFrame(rows)
+    df_ban_dau = pd.DataFrame(rows)
 
-    st.dataframe(
-        df,
+    if "bo_phan_editor_version" not in st.session_state:
+
+        st.session_state[
+            "bo_phan_editor_version"
+        ] = 0
+
+    editor_version = st.session_state[
+        "bo_phan_editor_version"
+    ]
+
+    edited_df = st.data_editor(
+        df_ban_dau,
         width="stretch",
         hide_index=True,
+        key=f"bo_phan_editor_{editor_version}",
+        num_rows="fixed",
+        column_config={
+            text["col_id"]: st.column_config.NumberColumn(
+                text["col_id"],
+                disabled=True,
+                width="small",
+            ),
+
+            text["col_name"]: st.column_config.TextColumn(
+                text["col_name"],
+                required=True,
+                width="large",
+            ),
+
+            text["col_people"]: st.column_config.NumberColumn(
+                text["col_people"],
+                disabled=True,
+                width="small",
+            ),
+
+            text["col_status"]: st.column_config.SelectboxColumn(
+                text["col_status"],
+                options=[
+                    text["status_active"],
+                    text["status_inactive"],
+                ],
+                required=True,
+                width="medium",
+            ),
+
+            text["col_created"]: st.column_config.TextColumn(
+                text["col_created"],
+                disabled=True,
+                width="medium",
+            ),
+        },
+        disabled=[
+            text["col_id"],
+            text["col_people"],
+            text["col_created"],
+        ],
     )
 
-    # ==========================================================
-    # CHỌN BỘ PHẬN
-    # ==========================================================
+    df_goc = df_ban_dau.reset_index(drop=True)
+    df_moi = edited_df.reset_index(drop=True)
 
-    hien_thi_tieu_de_section(
-        text["actions"],
-        "⚙️",
+    co_thay_doi = not df_goc.equals(df_moi)
+
+    col1, col2, col3 = st.columns(
+        [2, 2, 6]
     )
 
-    danh_sach_lua_chon = {}
+    with col1:
 
-    for bo_phan in danh_sach_hien_thi:
-
-        bo_phan_id = bo_phan[0]
-        ten_bo_phan = bo_phan[1]
-
-        icon = (
-            "🟢"
-            if bo_phan[2] == 1
-            else "⚪"
+        luu_thay_doi = st.button(
+            text["save"],
+            type="primary",
+            width="stretch",
+            key="bo_phan_save_changes",
         )
 
-        nhan = (
-            f"{icon} "
-            f"{ten_bo_phan} "
-            f"(ID: {bo_phan_id})"
+    with col2:
+
+        huy_thay_doi = st.button(
+            text["cancel_changes"],
+            width="stretch",
+            key="bo_phan_cancel_changes",
         )
 
-        danh_sach_lua_chon[
-            nhan
-        ] = bo_phan_id
+    if huy_thay_doi:
 
-    lua_chon = st.selectbox(
-        text["select"],
-        list(
-            danh_sach_lua_chon.keys()
-        ),
-        index=None,
-        placeholder=text["select_placeholder"],
-        key="bo_phan_selected",
-    )
+        st.session_state[
+            "bo_phan_editor_version"
+        ] += 1
 
-    if lua_chon is None:
+        st.rerun()
 
-        st.caption(
-            text["no_selection"]
-        )
+    if luu_thay_doi:
 
-        return
+        if not co_thay_doi:
 
-    bo_phan_id_duoc_chon = (
-        danh_sach_lua_chon[
-            lua_chon
-        ]
-    )
-
-    bo_phan_duoc_chon = None
-
-    for bo_phan in danh_sach:
-
-        if (
-            bo_phan[0]
-            == bo_phan_id_duoc_chon
-        ):
-
-            bo_phan_duoc_chon = bo_phan
-            break
-
-    if bo_phan_duoc_chon is None:
-
-        st.warning(
-            text["no_selection"]
-        )
-
-        return
-
-    # ==========================================================
-    # THÔNG TIN BỘ PHẬN
-    # ==========================================================
-
-    bo_phan_id = bo_phan_duoc_chon[0]
-    ten_bo_phan = bo_phan_duoc_chon[1]
-    dang_hoat_dong = bo_phan_duoc_chon[2]
-    ngay_tao = bo_phan_duoc_chon[3] or ""
-
-    so_nguoi = dem_nguoi(
-        bo_phan_id
-    )
-
-    with st.container(border=True):
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-
-            st.markdown(
-                f"#### 🏢 {ten_bo_phan}"
+            st.info(
+                text["no_changes"]
             )
 
-            st.caption(
-                f"{text['col_id']}: "
-                f"{bo_phan_id}"
-            )
+        else:
 
-        with col2:
+            thay_doi = 0
+            loi = 0
+            thong_bao_loi = []
 
-            st.caption(
-                text["people"]
-            )
-
-            st.write(
-                f"{so_nguoi} "
-                f"{text['people_count']}"
-            )
-
-        with col3:
-
-            st.caption(
-                text["status"]
-            )
-
-            if dang_hoat_dong:
-
-                st.write(
-                    text["status_active"]
-                )
-
-            else:
-
-                st.write(
-                    text["status_inactive"]
-                )
-
-    # ==========================================================
-    # CHỈNH SỬA / NGỪNG HOẠT ĐỘNG
-    # ==========================================================
-
-    if dang_hoat_dong:
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-
-            sua = st.button(
-                text["edit"],
-                key="bo_phan_action_edit",
-                width="stretch",
-            )
-
-        with col2:
-
-            ngung = st.button(
-                text["stop"],
-                key="bo_phan_action_stop",
-                width="stretch",
-            )
-
-        if ngung:
-
-            st.session_state[
-                "bo_phan_confirm_stop"
-            ] = True
-
-        if st.session_state.get(
-            "bo_phan_confirm_stop",
-            False,
-        ):
-
-            st.warning(
-                text["confirm_stop"]
-            )
-
-            col1, col2 = st.columns(2)
-
-            with col1:
-
-                if st.button(
-                    "✓ " + text["stop"],
-                    key="bo_phan_confirm_stop_yes",
-                    type="primary",
-                    width="stretch",
-                ):
-
-                    try:
-
-                        BoPhanController.ngung_hoat_dong(
-                            bo_phan_id
-                        )
-
-                        st.session_state[
-                            "bo_phan_confirm_stop"
-                        ] = False
-
-                        st.session_state[
-                            "_qlc_pending_notification"
-                        ] = {
-                            "message": text["stop"],
-                            "loai": "success",
-                        }
-
-                        st.rerun()
-
-                    except Exception as error:
-
-                        st.error(
-                            f"{text['error']} {error}"
-                        )
-
-            with col2:
-
-                if st.button(
-                    text["cancel"],
-                    key="bo_phan_confirm_stop_no",
-                    width="stretch",
-                ):
-
-                    st.session_state[
-                        "bo_phan_confirm_stop"
-                    ] = False
-
-                    st.rerun()
-
-        # ======================================================
-        # CHỈNH SỬA
-        # ======================================================
-
-        if sua:
-
-            st.session_state[
-                "bo_phan_edit_mode"
-            ] = True
-
-        if st.session_state.get(
-            "bo_phan_edit_mode",
-            False,
-        ):
-
-            with st.expander(
-                text["edit_info"],
-                expanded=True,
+            for index in range(
+                len(df_moi)
             ):
 
-                with st.form(
-                    key="form_sua_bo_phan",
-                ):
+                row_goc = df_goc.iloc[index]
+                row_moi = df_moi.iloc[index]
 
-                    ten_moi = st.text_input(
-                        text["name"],
-                        value=ten_bo_phan,
+                try:
+
+                    bo_phan_id = int(
+                        row_goc[
+                            text["col_id"]
+                        ]
                     )
 
-                    col1, col2 = st.columns(2)
+                    ten_goc = str(
+                        row_goc[
+                            text["col_name"]
+                        ]
+                    ).strip()
 
-                    with col1:
+                    ten_moi = str(
+                        row_moi[
+                            text["col_name"]
+                        ]
+                    ).strip()
 
-                        luu = st.form_submit_button(
-                            text["save"],
-                            type="primary",
-                            width="stretch",
+                    trang_thai_goc = str(
+                        row_goc[
+                            text["col_status"]
+                        ]
+                    ).strip()
+
+                    trang_thai_moi = str(
+                        row_moi[
+                            text["col_status"]
+                        ]
+                    ).strip()
+
+                    if not ten_moi:
+
+                        loi += 1
+
+                        thong_bao_loi.append(
+                            f"ID {bo_phan_id}: "
+                            f"{text['empty_name']}"
                         )
 
-                    with col2:
+                        continue
 
-                        huy = st.form_submit_button(
-                            text["cancel"],
-                            width="stretch",
-                        )
+                    ten_da_thay_doi = (
+                        ten_goc
+                        != ten_moi
+                    )
 
-                if luu:
+                    trang_thai_da_thay_doi = (
+                        trang_thai_goc
+                        != trang_thai_moi
+                    )
 
-                    if not ten_moi.strip():
+                    if not ten_da_thay_doi and not trang_thai_da_thay_doi:
 
-                        st.warning(
-                            text["empty_name"]
-                        )
+                        continue
 
-                    else:
+                    if ten_da_thay_doi:
 
                         try:
 
                             BoPhanController.cap_nhat(
                                 bo_phan_id,
-                                ten_moi.strip(),
+                                ten_moi,
                             )
-
-                            st.session_state[
-                                "bo_phan_edit_mode"
-                            ] = False
-
-                            st.session_state[
-                                "_qlc_pending_notification"
-                            ] = {
-                                "message": text["save"],
-                                "loai": "success",
-                            }
-
-                            st.rerun()
 
                         except Exception as error:
 
-                            st.error(
-                                f"{text['error']} {error}"
+                            loi += 1
+
+                            thong_bao_loi.append(
+                                f"ID {bo_phan_id}: "
+                                f"{error}"
                             )
 
-                if huy:
+                            continue
 
-                    st.session_state[
-                        "bo_phan_edit_mode"
-                    ] = False
+                    if trang_thai_da_thay_doi:
 
-                    st.rerun()
+                        if (
+                            trang_thai_moi
+                            == text["status_active"]
+                        ):
 
-    # ==========================================================
-    # KÍCH HOẠT LẠI
-    # ==========================================================
+                            if (
+                                trang_thai_goc
+                                == text["status_inactive"]
+                            ):
 
-    else:
+                                BoPhanController.kich_hoat_lai(
+                                    bo_phan_id
+                                )
 
-        if st.button(
-            text["activate"],
-            key="bo_phan_action_activate",
-            type="primary",
-            width="stretch",
-        ):
+                        elif (
+                            trang_thai_moi
+                            == text["status_inactive"]
+                        ):
 
-            st.session_state[
-                "bo_phan_confirm_activate"
-            ] = True
+                            if (
+                                trang_thai_goc
+                                == text["status_active"]
+                            ):
 
-        if st.session_state.get(
-            "bo_phan_confirm_activate",
-            False,
-        ):
+                                BoPhanController.ngung_hoat_dong(
+                                    bo_phan_id
+                                )
 
-            st.info(
-                text["confirm_activate"]
-            )
+                    thay_doi += 1
 
-            col1, col2 = st.columns(2)
+                except Exception as error:
 
-            with col1:
+                    loi += 1
 
-                if st.button(
-                    "✓ " + text["activate"],
-                    key="bo_phan_confirm_activate_yes",
-                    type="primary",
-                    width="stretch",
-                ):
+                    thong_bao_loi.append(
+                        f"ID {row_goc[text['col_id']]}: "
+                        f"{error}"
+                    )
 
-                    try:
+            if thay_doi > 0 and loi == 0:
 
-                        BoPhanController.kich_hoat_lai(
-                            bo_phan_id
-                        )
+                st.session_state[
+                    "_qlc_pending_notification"
+                ] = {
+                    "message": (
+                        f"{text['save_success']} "
+                        f"({thay_doi})"
+                    ),
+                    "loai": "success",
+                }
 
-                        st.session_state[
-                            "bo_phan_confirm_activate"
-                        ] = False
+                st.session_state[
+                    "bo_phan_editor_version"
+                ] += 1
 
-                        st.session_state[
-                            "_qlc_pending_notification"
-                        ] = {
-                            "message": text["activate"],
-                            "loai": "success",
-                        }
+                st.rerun()
 
-                        st.rerun()
+            elif thay_doi > 0 and loi > 0:
 
-                    except Exception as error:
+                st.session_state[
+                    "_qlc_pending_notification"
+                ] = {
+                    "message": (
+                        f"{text['save_partial']} "
+                        f"✓ {thay_doi} "
+                        f"• ⚠️ {loi}"
+                    ),
+                    "loai": "warning",
+                }
 
-                        st.error(
-                            f"{text['error']} {error}"
-                        )
+                for message in thong_bao_loi[:5]:
 
-            with col2:
+                    st.warning(
+                        message
+                    )
 
-                if st.button(
-                    text["cancel"],
-                    key="bo_phan_confirm_activate_no",
-                    width="stretch",
-                ):
+                st.session_state[
+                    "bo_phan_editor_version"
+                ] += 1
 
-                    st.session_state[
-                        "bo_phan_confirm_activate"
-                    ] = False
+                st.rerun()
 
-                    st.rerun()
+            else:
 
-    # ==========================================================
-    # THÔNG TIN CUỐI
-    # ==========================================================
+                for message in thong_bao_loi[:5]:
+
+                    st.error(
+                        message
+                    )
 
     st.caption(
-        f"{text['col_id']}: {bo_phan_id}  •  "
-        f"{text['col_created']}: "
-        f"{ngay_tao}"
+        "💡 "
+        + (
+            "Chỉnh sửa tên hoặc trạng thái trực tiếp trong bảng, "
+            "sau đó bấm Lưu thay đổi."
+            if language == "vi"
+            else
+            "Edit the department name or status directly in the table, "
+            "then click Save changes."
+            if language == "en"
+            else
+            "直接在表格中修改部门名称或状态，然后点击保存修改。"
+        )
     )

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
 
 from Database.database import get_connection
@@ -5,12 +7,12 @@ from Database.database import get_connection
 
 class NguoiAnModel:
 
-    # ==========================================
-    # THÊM NGƯỜI ĂN
-    # ==========================================
     @staticmethod
-    def them_nguoi_an(ho_ten, sdt=None):
-
+    def them_nguoi_an(
+        ho_ten,
+        sdt=None,
+        bo_phan_id=None
+    ):
         ho_ten = ho_ten.strip()
 
         if not ho_ten:
@@ -25,15 +27,19 @@ class NguoiAnModel:
                 INSERT INTO NguoiAn (
                     HoTen,
                     SDT,
+                    BoPhanId,
                     DangHoatDong,
                     NgayTao
                 )
-                VALUES (?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?)
             """, (
                 ho_ten,
                 sdt,
+                bo_phan_id,
                 1,
-                datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                datetime.now().strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
             ))
 
             connection.commit()
@@ -43,12 +49,8 @@ class NguoiAnModel:
         finally:
             connection.close()
 
-    # ==========================================
-    # LẤY TẤT CẢ NGƯỜI ĂN
-    # ==========================================
     @staticmethod
     def lay_tat_ca():
-
         connection = get_connection()
 
         try:
@@ -56,13 +58,17 @@ class NguoiAnModel:
 
             cursor.execute("""
                 SELECT
-                    Id,
-                    HoTen,
-                    SDT,
-                    DangHoatDong,
-                    NgayTao
-                FROM NguoiAn
-                ORDER BY HoTen
+                    N.Id,
+                    N.HoTen,
+                    N.SDT,
+                    N.BoPhanId,
+                    B.TenBoPhan,
+                    N.DangHoatDong,
+                    N.NgayTao
+                FROM NguoiAn N
+                LEFT JOIN BoPhan B
+                    ON N.BoPhanId = B.Id
+                ORDER BY N.HoTen
             """)
 
             return cursor.fetchall()
@@ -70,12 +76,8 @@ class NguoiAnModel:
         finally:
             connection.close()
 
-    # ==========================================
-    # LẤY NGƯỜI ĂN ĐANG HOẠT ĐỘNG
-    # ==========================================
     @staticmethod
     def lay_dang_hoat_dong():
-
         connection = get_connection()
 
         try:
@@ -83,14 +85,18 @@ class NguoiAnModel:
 
             cursor.execute("""
                 SELECT
-                    Id,
-                    HoTen,
-                    SDT,
-                    DangHoatDong,
-                    NgayTao
-                FROM NguoiAn
-                WHERE DangHoatDong = 1
-                ORDER BY HoTen
+                    N.Id,
+                    N.HoTen,
+                    N.SDT,
+                    N.BoPhanId,
+                    B.TenBoPhan,
+                    N.DangHoatDong,
+                    N.NgayTao
+                FROM NguoiAn N
+                LEFT JOIN BoPhan B
+                    ON N.BoPhanId = B.Id
+                WHERE N.DangHoatDong = 1
+                ORDER BY N.HoTen
             """)
 
             return cursor.fetchall()
@@ -98,12 +104,8 @@ class NguoiAnModel:
         finally:
             connection.close()
 
-    # ==========================================
-    # TÌM THEO ID
-    # ==========================================
     @staticmethod
-    def tim_theo_id(nguoi_an_id):
-
+    def lay_theo_bo_phan(bo_phan_id):
         connection = get_connection()
 
         try:
@@ -111,13 +113,46 @@ class NguoiAnModel:
 
             cursor.execute("""
                 SELECT
-                    Id,
-                    HoTen,
-                    SDT,
-                    DangHoatDong,
-                    NgayTao
-                FROM NguoiAn
-                WHERE Id = ?
+                    N.Id,
+                    N.HoTen,
+                    N.SDT,
+                    N.BoPhanId,
+                    B.TenBoPhan,
+                    N.DangHoatDong,
+                    N.NgayTao
+                FROM NguoiAn N
+                LEFT JOIN BoPhan B
+                    ON N.BoPhanId = B.Id
+                WHERE N.BoPhanId = ?
+                  AND N.DangHoatDong = 1
+                ORDER BY N.HoTen
+            """, (bo_phan_id,))
+
+            return cursor.fetchall()
+
+        finally:
+            connection.close()
+
+    @staticmethod
+    def tim_theo_id(nguoi_an_id):
+        connection = get_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                SELECT
+                    N.Id,
+                    N.HoTen,
+                    N.SDT,
+                    N.BoPhanId,
+                    B.TenBoPhan,
+                    N.DangHoatDong,
+                    N.NgayTao
+                FROM NguoiAn N
+                LEFT JOIN BoPhan B
+                    ON N.BoPhanId = B.Id
+                WHERE N.Id = ?
             """, (nguoi_an_id,))
 
             return cursor.fetchone()
@@ -125,12 +160,8 @@ class NguoiAnModel:
         finally:
             connection.close()
 
-    # ==========================================
-    # TÌM THEO TÊN
-    # ==========================================
     @staticmethod
     def tim_theo_ten(ho_ten):
-
         connection = get_connection()
 
         try:
@@ -138,14 +169,18 @@ class NguoiAnModel:
 
             cursor.execute("""
                 SELECT
-                    Id,
-                    HoTen,
-                    SDT,
-                    DangHoatDong,
-                    NgayTao
-                FROM NguoiAn
-                WHERE HoTen LIKE ?
-                ORDER BY HoTen
+                    N.Id,
+                    N.HoTen,
+                    N.SDT,
+                    N.BoPhanId,
+                    B.TenBoPhan,
+                    N.DangHoatDong,
+                    N.NgayTao
+                FROM NguoiAn N
+                LEFT JOIN BoPhan B
+                    ON N.BoPhanId = B.Id
+                WHERE N.HoTen LIKE ?
+                ORDER BY N.HoTen
             """, (f"%{ho_ten}%",))
 
             return cursor.fetchall()
@@ -153,12 +188,13 @@ class NguoiAnModel:
         finally:
             connection.close()
 
-    # ==========================================
-    # CẬP NHẬT THÔNG TIN
-    # ==========================================
     @staticmethod
-    def cap_nhat(nguoi_an_id, ho_ten, sdt=None):
-
+    def cap_nhat(
+        nguoi_an_id,
+        ho_ten,
+        sdt=None,
+        bo_phan_id=None
+    ):
         ho_ten = ho_ten.strip()
 
         if not ho_ten:
@@ -173,11 +209,13 @@ class NguoiAnModel:
                 UPDATE NguoiAn
                 SET
                     HoTen = ?,
-                    SDT = ?
+                    SDT = ?,
+                    BoPhanId = ?
                 WHERE Id = ?
             """, (
                 ho_ten,
                 sdt,
+                bo_phan_id,
                 nguoi_an_id
             ))
 
@@ -188,12 +226,8 @@ class NguoiAnModel:
         finally:
             connection.close()
 
-    # ==========================================
-    # NGỪNG HOẠT ĐỘNG
-    # ==========================================
     @staticmethod
     def ngung_hoat_dong(nguoi_an_id):
-
         connection = get_connection()
 
         try:
@@ -212,12 +246,8 @@ class NguoiAnModel:
         finally:
             connection.close()
 
-    # ==========================================
-    # KÍCH HOẠT LẠI
-    # ==========================================
     @staticmethod
     def kich_hoat_lai(nguoi_an_id):
-
         connection = get_connection()
 
         try:

@@ -8,7 +8,7 @@ from Controllers.AIController import lay_du_lieu_cho_ai
 
 
 # ============================================================
-# HÀM THÊM TIN NHẮN
+# THÊM TIN NHẮN
 # ============================================================
 
 def them_tin_nhan(vai_tro, noi_dung):
@@ -22,7 +22,7 @@ def them_tin_nhan(vai_tro, noi_dung):
 
 
 # ============================================================
-# HÀM XÓA LỊCH SỬ
+# XÓA LỊCH SỬ CHAT
 # ============================================================
 
 def xoa_lich_su_chat():
@@ -41,16 +41,10 @@ def xoa_lich_su_chat():
 
 
 # ============================================================
-# HÀM XỬ LÝ CÂU HỎI VỚI AI + DATABASE
+# XỬ LÝ CÂU HỎI AI + DATABASE
 # ============================================================
 
 def xu_ly_cau_hoi_ai(cau_hoi, lich_su=None):
-    """
-    Xử lý câu hỏi:
-    1. Python kiểm tra CSDL.
-    2. Nếu có dữ liệu liên quan -> đưa dữ liệu chính xác cho Qwen.
-    3. Nếu không liên quan CSDL -> cho Qwen trả lời bình thường.
-    """
 
     du_lieu_db = lay_du_lieu_cho_ai(cau_hoi)
 
@@ -110,13 +104,13 @@ Không được tự tạo số liệu CSDL.
 
 
 # ============================================================
-# HÀM HIỂN THỊ ROBOT
+# GIAO DIỆN ROBOT
 # ============================================================
 
 def hien_thi_robot():
 
     # ========================================================
-    # KHỞI TẠO SESSION STATE
+    # SESSION STATE
     # ========================================================
 
     if "tro_ly_mo" not in st.session_state:
@@ -140,7 +134,7 @@ def hien_thi_robot():
         ]
 
     # ========================================================
-    # ĐƯỜNG DẪN AVATAR
+    # AVATAR
     # ========================================================
 
     base_dir = Path(__file__).resolve().parent.parent
@@ -153,6 +147,9 @@ def hien_thi_robot():
 
     # ========================================================
     # CSS
+    #
+    # Không dùng HTML div tự tạo.
+    # Chỉ style các component Streamlit.
     # ========================================================
 
     st.markdown(
@@ -160,33 +157,43 @@ def hien_thi_robot():
         <style>
 
         /* =====================================================
-           DÂU TÂY AI
+           ROBOT ĐÓNG
            ===================================================== */
-
-        /* -----------------------------------------------------
-           1. NÚT ROBOT KHI ĐÓNG
-           ----------------------------------------------------- */
 
         .st-key-tro-ly-closed {
 
             position: fixed !important;
 
-            right: 24px !important;
-            bottom: 24px !important;
+            right: 20px !important;
+            bottom: 20px !important;
 
             z-index: 999999 !important;
 
+            width: 66px !important;
+            height: 66px !important;
+
+            padding: 0 !important;
+            margin: 0 !important;
+
             pointer-events: none !important;
+
+            animation: troLyFloat 3s ease-in-out infinite;
+        }
+
+
+        .st-key-tro-ly-closed [data-testid="stImage"] {
+
+            display: none !important;
         }
 
 
         .st-key-tro-ly-closed button {
 
-            width: 64px !important;
-            height: 64px !important;
+            width: 62px !important;
+            height: 62px !important;
 
-            min-width: 64px !important;
-            min-height: 64px !important;
+            min-width: 62px !important;
+            min-height: 62px !important;
 
             padding: 0 !important;
 
@@ -194,19 +201,27 @@ def hien_thi_robot():
 
             border: 3px solid white !important;
 
-            background: linear-gradient(
-                135deg,
-                #ff6b9d 0%,
-                #ff4f81 100%
-            ) !important;
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff79a8 0%,
+                    #ff4f81 55%,
+                    #ff3d72 100%
+                ) !important;
+
+            color: white !important;
+
+            font-size: 25px !important;
 
             box-shadow:
-                0 8px 25px rgba(0, 0, 0, 0.20),
-                0 3px 8px rgba(255, 79, 129, 0.30) !important;
-
-            transition: all 0.2s ease !important;
+                0 8px 28px rgba(255, 79, 129, 0.35),
+                0 4px 12px rgba(0, 0, 0, 0.18) !important;
 
             pointer-events: auto !important;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease !important;
         }
 
 
@@ -215,179 +230,221 @@ def hien_thi_robot():
             transform: scale(1.08) !important;
 
             box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.25),
-                0 4px 12px rgba(255, 79, 129, 0.35) !important;
+                0 12px 34px rgba(255, 79, 129, 0.42),
+                0 5px 14px rgba(0, 0, 0, 0.20) !important;
         }
 
 
         .st-key-tro-ly-closed button:active {
 
-            transform: scale(0.96) !important;
+            transform: scale(0.94) !important;
         }
 
 
-        /* -----------------------------------------------------
-           2. KHUNG CHAT
-           ----------------------------------------------------- */
+        /* =====================================================
+           CHATBOX THƯỜNG
+           ===================================================== */
 
         .st-key-tro-ly-chat {
 
             position: fixed !important;
 
-            right: 24px !important;
+            right: 20px !important;
             bottom: 20px !important;
 
-            width: 430px !important;
-            height: 680px !important;
+            width: 410px !important;
+            height: 650px !important;
 
             z-index: 999998 !important;
 
+            padding: 0 !important;
+            margin: 0 !important;
+
             background: #ffffff !important;
 
-            border-radius: 20px !important;
+            border-radius: 24px !important;
+
+            border: 1px solid #eeeeee !important;
 
             overflow: hidden !important;
 
             box-shadow:
-                0 18px 55px rgba(0, 0, 0, 0.22),
-                0 4px 14px rgba(0, 0, 0, 0.10) !important;
+                0 24px 70px rgba(0, 0, 0, 0.18),
+                0 8px 25px rgba(255, 79, 129, 0.12) !important;
 
-            border: 1px solid #e7e7e7 !important;
-
-            /*
-             * Quan trọng:
-             * Container ngoài không bắt sự kiện click.
-             */
-
-            pointer-events: none !important;
+            animation:
+                troLyOpen 0.25s ease-out !important;
         }
 
 
-        /*
-         * Các thành phần thực sự của chat vẫn nhận click.
-         */
+        /* =====================================================
+           CHATBOX FULLSCREEN
+           ===================================================== */
 
-        .st-key-tro-ly-chat button,
-        .st-key-tro-ly-chat input,
-        .st-key-tro-ly-chat textarea,
-        .st-key-tro-ly-chat [role="button"],
-        .st-key-tro-ly-chat [data-testid="stChatInput"],
-        .st-key-tro-ly-chat [data-testid="stChatMessage"],
-        .st-key-tro-ly-chat [data-testid="stChatMessageContent"],
-        .st-key-tro-ly-chat img {
+        .st-key-tro-ly-full {
 
-            pointer-events: auto !important;
+            position: fixed !important;
+
+            left: 6vw !important;
+            right: 6vw !important;
+
+            top: 4vh !important;
+            bottom: 4vh !important;
+
+            z-index: 999998 !important;
+
+            padding: 0 !important;
+            margin: 0 !important;
+
+            background: #ffffff !important;
+
+            border-radius: 24px !important;
+
+            border: 1px solid #eeeeee !important;
+
+            overflow: hidden !important;
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.22) !important;
+
+            animation:
+                troLyOpen 0.25s ease-out !important;
         }
 
 
-        /* -----------------------------------------------------
-           3. HEADER CHAT
-           ----------------------------------------------------- */
+        /* =====================================================
+           HEADER
+           ===================================================== */
 
-        .st-key-tro-ly-chat .dau-tay-title {
+        .st-key-tro-ly-chat
+        [data-testid="stHorizontalBlock"]:first-child,
 
-            display: flex !important;
+        .st-key-tro-ly-full
+        [data-testid="stHorizontalBlock"]:first-child {
 
-            align-items: center !important;
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff72a4 0%,
+                    #ff4f81 50%,
+                    #ff3d72 100%
+                ) !important;
 
-            gap: 11px !important;
-
-            padding: 14px 16px !important;
+            padding:
+                10px 12px 10px 12px !important;
 
             margin: 0 !important;
 
-            background: linear-gradient(
-                135deg,
-                #ff6b9d 0%,
-                #ff4f81 100%
-            ) !important;
-
-            color: white !important;
-
-            border-radius: 0 !important;
+            border-radius: 24px 24px 0 0 !important;
         }
 
 
-        .st-key-tro-ly-chat .dau-tay-title img {
+        /* =====================================================
+           HEADER AVATAR
+           ===================================================== */
+
+        .st-key-tro-ly-chat
+        [data-testid="stHorizontalBlock"]:first-child
+        [data-testid="stImage"] img,
+
+        .st-key-tro-ly-full
+        [data-testid="stHorizontalBlock"]:first-child
+        [data-testid="stImage"] img {
 
             width: 44px !important;
             height: 44px !important;
-
-            min-width: 44px !important;
 
             object-fit: cover !important;
 
             border-radius: 50% !important;
 
-            border: 2px solid rgba(
-                255,
-                255,
-                255,
-                0.9
-            ) !important;
+            border: 2px solid white !important;
 
             background: white !important;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.12) !important;
         }
 
 
-        .st-key-tro-ly-chat .dau-tay-title strong {
+        /* =====================================================
+           HEADER BUTTON
+           ===================================================== */
 
-            display: block !important;
+        .st-key-tro-ly-chat
+        [data-testid="stHorizontalBlock"]:first-child button,
 
-            font-size: 16px !important;
+        .st-key-tro-ly-full
+        [data-testid="stHorizontalBlock"]:first-child button {
 
-            line-height: 20px !important;
+            min-width: 34px !important;
+            min-height: 34px !important;
 
-            font-weight: 700 !important;
+            width: 34px !important;
+            height: 34px !important;
+
+            padding: 0 !important;
+
+            border-radius: 50% !important;
+
+            border: none !important;
+
+            background:
+                rgba(255, 255, 255, 0.18) !important;
 
             color: white !important;
+
+            font-size: 15px !important;
+
+            box-shadow: none !important;
         }
 
 
-        .st-key-tro-ly-chat .dau-tay-status {
+        .st-key-tro-ly-chat
+        [data-testid="stHorizontalBlock"]:first-child button:hover,
 
-            display: block !important;
+        .st-key-tro-ly-full
+        [data-testid="stHorizontalBlock"]:first-child button:hover {
 
-            margin-top: 2px !important;
+            background:
+                rgba(255, 255, 255, 0.30) !important;
 
-            font-size: 12px !important;
-
-            line-height: 16px !important;
-
-            color: rgba(
-                255,
-                255,
-                255,
-                0.90
-            ) !important;
+            transform: scale(1.05) !important;
         }
 
 
-        /* -----------------------------------------------------
-           4. LỊCH SỬ CHAT
-           ----------------------------------------------------- */
+        /* =====================================================
+           NỘI DUNG CHAT
+           ===================================================== */
 
         .st-key-tro-ly-lich-su {
 
-            padding: 12px 12px 8px 12px !important;
-
             background:
                 linear-gradient(
-                    rgba(248, 249, 251, 0.92),
-                    rgba(248, 249, 251, 0.92)
+                    180deg,
+                    #fffafd 0%,
+                    #f9f9fc 45%,
+                    #f6f7fa 100%
                 ) !important;
 
             border-radius: 0 !important;
 
+            padding:
+                12px 12px 8px 12px !important;
+
             overflow-y: auto !important;
 
-            pointer-events: auto !important;
+            scrollbar-width: thin !important;
+
+            scrollbar-color:
+                #d8d8dc
+                transparent !important;
         }
 
 
         .st-key-tro-ly-lich-su::-webkit-scrollbar {
 
-            width: 6px !important;
+            width: 5px !important;
         }
 
 
@@ -399,47 +456,35 @@ def hien_thi_robot():
 
         .st-key-tro-ly-lich-su::-webkit-scrollbar-thumb {
 
-            background: #d2d5da !important;
+            background: #d7d7dc !important;
 
             border-radius: 10px !important;
         }
 
 
-        .st-key-tro-ly-lich-su::-webkit-scrollbar-thumb:hover {
-
-            background: #b8bbc0 !important;
-        }
-
-
-        /* -----------------------------------------------------
-           5. TIN NHẮN STREAMLIT
-           ----------------------------------------------------- */
+        /* =====================================================
+           CHAT MESSAGE
+           ===================================================== */
 
         .st-key-tro-ly-lich-su
         [data-testid="stChatMessage"] {
-
-            display: flex !important;
-
-            width: 100% !important;
-
-            margin-top: 7px !important;
-            margin-bottom: 7px !important;
-
-            padding: 0 !important;
 
             background: transparent !important;
 
             border: none !important;
 
-            box-shadow: none !important;
+            padding: 2px 0 !important;
 
-            pointer-events: auto !important;
+            margin:
+                7px 0 !important;
+
+            box-shadow: none !important;
         }
 
 
-        /* -----------------------------------------------------
-           6. AVATAR TIN NHẮN
-           ----------------------------------------------------- */
+        /* =====================================================
+           AVATAR MESSAGE
+           ===================================================== */
 
         .st-key-tro-ly-lich-su
         [data-testid="stChatMessageAvatar"] {
@@ -449,15 +494,13 @@ def hien_thi_robot():
 
             min-width: 32px !important;
 
-            margin-top: 2px !important;
-
             border-radius: 50% !important;
         }
 
 
-        /* -----------------------------------------------------
-           7. NỘI DUNG TIN NHẮN
-           ----------------------------------------------------- */
+        /* =====================================================
+           NỘI DUNG MESSAGE
+           ===================================================== */
 
         .st-key-tro-ly-lich-su
         [data-testid="stChatMessageContent"] {
@@ -467,93 +510,27 @@ def hien_thi_robot():
             padding: 0 !important;
 
             background: transparent !important;
-
-            pointer-events: auto !important;
         }
 
 
-        /* -----------------------------------------------------
-           8. BUBBLE
-           ----------------------------------------------------- */
-
-        .st-key-tro-ly-lich-su
-        [data-testid="stChatMessageContent"] > div {
-
-            width: fit-content !important;
-
-            max-width: 100% !important;
-
-            padding: 9px 13px !important;
-
-            border-radius: 17px !important;
-
-            font-size: 14px !important;
-
-            line-height: 1.45 !important;
-
-            word-break: break-word !important;
-
-            overflow-wrap: anywhere !important;
-        }
-
-
-        /* -----------------------------------------------------
-           9. TIN NHẮN DÂU TÂY
-           ----------------------------------------------------- */
-
-        .st-key-tro-ly-lich-su
-        [data-testid="stChatMessage"][data-testid*="assistant"]
-        [data-testid="stChatMessageContent"] > div {
-
-            background: white !important;
-
-            color: #202124 !important;
-
-            border: 1px solid #e7e7e7 !important;
-
-            border-top-left-radius: 5px !important;
-
-            box-shadow:
-                0 1px 2px rgba(0, 0, 0, 0.06) !important;
-        }
-
-
-        /* -----------------------------------------------------
-           10. TIN NHẮN NGƯỜI DÙNG
-           ----------------------------------------------------- */
-
-        .st-key-tro-ly-lich-su
-        [data-testid="stChatMessage"][data-testid*="user"]
-        [data-testid="stChatMessageContent"] > div {
-
-            background: #ff4f81 !important;
-
-            color: white !important;
-
-            border: none !important;
-
-            border-top-right-radius: 5px !important;
-
-            box-shadow:
-                0 1px 2px rgba(
-                    255,
-                    79,
-                    129,
-                    0.20
-                ) !important;
-        }
-
-
-        /* -----------------------------------------------------
-           11. TEXT
-           ----------------------------------------------------- */
+        /* =====================================================
+           TEXT MESSAGE
+           ===================================================== */
 
         .st-key-tro-ly-lich-su
         [data-testid="stChatMessageContent"] p {
 
+            font-size: 14px !important;
+
+            line-height: 1.5 !important;
+
             margin-top: 0 !important;
 
-            margin-bottom: 4px !important;
+            margin-bottom: 5px !important;
+
+            word-break: break-word !important;
+
+            overflow-wrap: anywhere !important;
         }
 
 
@@ -564,244 +541,282 @@ def hien_thi_robot():
         }
 
 
-        /* -----------------------------------------------------
-           12. CODE
-           ----------------------------------------------------- */
+        /* =====================================================
+           CAPTION TÊN NGƯỜI GỬI
+           ===================================================== */
 
         .st-key-tro-ly-lich-su
-        [data-testid="stChatMessageContent"] code {
+        [data-testid="stChatMessageContent"]
+        [data-testid="stCaptionContainer"] {
 
-            background: rgba(
-                0,
-                0,
-                0,
-                0.06
-            ) !important;
+            font-size: 10px !important;
 
-            padding: 2px 5px !important;
+            font-weight: 600 !important;
+
+            color: #9a9aa2 !important;
+
+            margin-bottom: 3px !important;
+        }
+
+
+        /* =====================================================
+           CODE
+           ===================================================== */
+
+        .st-key-tro-ly-lich-su code {
+
+            background: #f0f0f3 !important;
 
             border-radius: 5px !important;
 
+            padding: 2px 5px !important;
+
             font-size: 12px !important;
         }
 
 
-        /* -----------------------------------------------------
-           13. BUTTON CHAT
-           ----------------------------------------------------- */
+        /* =====================================================
+           GỢI Ý
+           ===================================================== */
 
-        .st-key-tro-ly-chat button {
+        .st-key-tro-ly-chat
+        [data-testid="stCaptionContainer"],
 
-            font-family: inherit !important;
+        .st-key-tro-ly-full
+        [data-testid="stCaptionContainer"] {
 
-            pointer-events: auto !important;
+            color: #9999a2 !important;
 
-            border-radius: 12px !important;
-
-            transition:
-                background 0.15s ease,
-                transform 0.15s ease !important;
+            font-size: 11px !important;
         }
 
 
-        .st-key-tro-ly-chat button[kind="secondary"] {
+        /* =====================================================
+           NÚT GỢI Ý
+           ===================================================== */
+
+        .st-key-tro-ly-chat
+        [data-testid="stHorizontalBlock"]:not(:first-child)
+        button,
+
+        .st-key-tro-ly-full
+        [data-testid="stHorizontalBlock"]:not(:first-child)
+        button {
+
+            border-radius: 14px !important;
+
+            border: 1px solid #ececef !important;
+
+            background: white !important;
+
+            color: #55555d !important;
 
             min-height: 34px !important;
 
-            padding: 5px 10px !important;
-
-            border: 1px solid #e4e5e7 !important;
-
-            background: #ffffff !important;
-
-            color: #444 !important;
-
             font-size: 12px !important;
 
-            font-weight: 500 !important;
+            transition:
+                all 0.18s ease !important;
         }
 
 
-        .st-key-tro-ly-chat button[kind="secondary"]:hover {
+        .st-key-tro-ly-chat
+        [data-testid="stHorizontalBlock"]:not(:first-child)
+        button:hover,
 
-            background: #fff0f4 !important;
+        .st-key-tro-ly-full
+        [data-testid="stHorizontalBlock"]:not(:first-child)
+        button:hover {
+
+            background: #fff2f6 !important;
 
             border-color: #ff9cba !important;
 
-            color: #ff3f76 !important;
+            color: #ff4779 !important;
 
             transform: translateY(-1px) !important;
         }
 
 
-        /* -----------------------------------------------------
-           14. Ô NHẬP CHAT
-           ----------------------------------------------------- */
+        /* =====================================================
+           CHAT INPUT
+           ===================================================== */
 
         .st-key-tro-ly-chat
+        [data-testid="stChatInput"],
+
+        .st-key-tro-ly-full
         [data-testid="stChatInput"] {
 
-            padding: 6px 12px 12px 12px !important;
+            background:
+                rgba(248, 249, 251, 0.96) !important;
 
-            background: #f8f9fb !important;
+            padding:
+                7px 12px 12px 12px !important;
 
-            pointer-events: auto !important;
+            border-top:
+                1px solid #eeeeef !important;
         }
 
 
         .st-key-tro-ly-chat
+        [data-testid="stChatInput"] textarea,
+
+        .st-key-tro-ly-full
         [data-testid="stChatInput"] textarea {
 
-            min-height: 42px !important;
+            min-height: 44px !important;
 
             max-height: 100px !important;
 
-            padding: 11px 46px 11px 15px !important;
+            border-radius: 24px !important;
 
-            border-radius: 22px !important;
-
-            border: 1px solid #dedfe3 !important;
+            border:
+                1px solid #dedee3 !important;
 
             background: white !important;
 
-            color: #202124 !important;
+            color: #222 !important;
 
             font-size: 14px !important;
 
-            box-shadow: none !important;
-
-            resize: none !important;
-
-            pointer-events: auto !important;
-        }
-
-
-        .st-key-tro-ly-chat
-        [data-testid="stChatInput"] textarea:focus {
-
-            border-color: #ff7da2 !important;
+            padding:
+                11px 48px 11px 16px !important;
 
             box-shadow:
-                0 0 0 2px rgba(
-                    255,
-                    79,
-                    129,
-                    0.10
-                ) !important;
+                0 2px 8px rgba(0, 0, 0, 0.04) !important;
+
+            resize: none !important;
         }
 
 
         .st-key-tro-ly-chat
+        [data-testid="stChatInput"] textarea:focus,
+
+        .st-key-tro-ly-full
+        [data-testid="stChatInput"] textarea:focus {
+
+            border-color:
+                #ff80a5 !important;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(255, 79, 129, 0.10) !important;
+        }
+
+
+        .st-key-tro-ly-chat
+        [data-testid="stChatInput"] button,
+
+        .st-key-tro-ly-full
         [data-testid="stChatInput"] button {
 
-            border-radius: 50% !important;
-
             width: 34px !important;
-
             height: 34px !important;
 
             min-width: 34px !important;
-
             min-height: 34px !important;
-
-            margin-right: 5px !important;
-
-            pointer-events: auto !important;
-        }
-
-
-        /* -----------------------------------------------------
-           15. FULLSCREEN CHAT
-           ----------------------------------------------------- */
-
-        .st-key-tro-ly-full {
-
-            position: fixed !important;
-
-            left: 7vw !important;
-            right: 7vw !important;
-
-            top: 5vh !important;
-            bottom: 5vh !important;
-
-            z-index: 999999 !important;
-
-            background: white !important;
-
-            border-radius: 22px !important;
-
-            overflow: hidden !important;
-
-            border: 1px solid #e5e5e5 !important;
-
-            box-shadow:
-                0 20px 70px rgba(
-                    0,
-                    0,
-                    0,
-                    0.25
-                ) !important;
-
-            pointer-events: none !important;
-        }
-
-
-        .st-key-tro-ly-full button,
-        .st-key-tro-ly-full input,
-        .st-key-tro-ly-full textarea,
-        .st-key-tro-ly-full [role="button"],
-        .st-key-tro-ly-full [data-testid="stChatInput"],
-        .st-key-tro-ly-full [data-testid="stChatMessage"] {
-
-            pointer-events: auto !important;
-        }
-
-
-        .st-key-tro-ly-full .dau-tay-title {
-
-            display: flex !important;
-
-            align-items: center !important;
-
-            gap: 12px !important;
-
-            padding: 16px 20px !important;
-
-            background: linear-gradient(
-                135deg,
-                #ff6b9d 0%,
-                #ff4f81 100%
-            ) !important;
-
-            color: white !important;
-        }
-
-
-        .st-key-tro-ly-full .dau-tay-title img {
-
-            width: 48px !important;
-            height: 48px !important;
 
             border-radius: 50% !important;
 
-            border: 2px solid white !important;
+            background:
+                #ff4f81 !important;
+
+            color: white !important;
+
+            border: none !important;
         }
 
 
-        /* -----------------------------------------------------
-           16. RESPONSIVE
-           ----------------------------------------------------- */
+        /* =====================================================
+           DIVIDER
+           ===================================================== */
+
+        .st-key-tro-ly-chat hr,
+
+        .st-key-tro-ly-full hr {
+
+            margin:
+                0 !important;
+
+            border-color:
+                rgba(255,255,255,0.15) !important;
+        }
+
+
+        /* =====================================================
+           ANIMATION
+           ===================================================== */
+
+        @keyframes troLyOpen {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(14px)
+                    scale(0.97);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        @keyframes troLyFloat {
+
+            0%,
+            100% {
+
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+
+                transform:
+                    translateY(-5px);
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
 
         @media (max-width: 700px) {
 
             .st-key-tro-ly-chat {
 
-                right: 10px !important;
-                bottom: 10px !important;
+                left: 8px !important;
+                right: 8px !important;
 
-                width: calc(100vw - 20px) !important;
+                bottom: 8px !important;
 
-                height: calc(100vh - 20px) !important;
+                width:
+                    calc(100vw - 16px) !important;
+
+                height:
+                    calc(100vh - 16px) !important;
+
+                border-radius: 20px !important;
+            }
+
+
+            .st-key-tro-ly-full {
+
+                left: 4px !important;
+                right: 4px !important;
+
+                top: 4px !important;
+                bottom: 4px !important;
 
                 border-radius: 18px !important;
             }
@@ -809,8 +824,8 @@ def hien_thi_robot():
 
             .st-key-tro-ly-closed {
 
-                right: 16px !important;
-                bottom: 16px !important;
+                right: 14px !important;
+                bottom: 14px !important;
             }
 
 
@@ -821,17 +836,22 @@ def hien_thi_robot():
 
                 min-width: 58px !important;
                 min-height: 58px !important;
+
+                font-size: 23px !important;
             }
 
 
             .st-key-tro-ly-lich-su
             [data-testid="stChatMessageContent"] {
 
-                max-width: 82% !important;
+                max-width: 84% !important;
             }
 
 
             .st-key-tro-ly-chat
+            [data-testid="stChatInput"] textarea,
+
+            .st-key-tro-ly-full
             [data-testid="stChatInput"] textarea {
 
                 font-size: 16px !important;
@@ -839,53 +859,63 @@ def hien_thi_robot():
         }
 
 
-        /* -----------------------------------------------------
-           17. DARK MODE
-           ----------------------------------------------------- */
+        /* =====================================================
+           DARK MODE
+           ===================================================== */
 
         @media (prefers-color-scheme: dark) {
 
-            .st-key-tro-ly-chat {
+            .st-key-tro-ly-chat,
 
-                background: #18191d !important;
+            .st-key-tro-ly-full {
 
-                border-color: #303136 !important;
+                background: #191a1f !important;
+
+                border-color: #303138 !important;
             }
 
 
             .st-key-tro-ly-lich-su {
 
-                background: #202124 !important;
+                background:
+                    linear-gradient(
+                        180deg,
+                        #202126 0%,
+                        #191a1f 100%
+                    ) !important;
             }
 
 
             .st-key-tro-ly-lich-su
-            [data-testid="stChatMessage"]
-            [data-testid="stChatMessageContent"] > div {
+            [data-testid="stChatMessageContent"] p {
 
-                background: #303136 !important;
-
-                color: #f1f3f4 !important;
-
-                border-color: #3b3c40 !important;
+                color: #f1f2f4 !important;
             }
 
 
             .st-key-tro-ly-chat
+            [data-testid="stChatInput"],
+
+            .st-key-tro-ly-full
             [data-testid="stChatInput"] {
 
-                background: #18191d !important;
+                background: #191a1f !important;
+
+                border-color: #303138 !important;
             }
 
 
             .st-key-tro-ly-chat
+            [data-testid="stChatInput"] textarea,
+
+            .st-key-tro-ly-full
             [data-testid="stChatInput"] textarea {
 
-                background: #303136 !important;
+                background: #292a30 !important;
 
                 color: white !important;
 
-                border-color: #45464b !important;
+                border-color: #414249 !important;
             }
         }
 
@@ -895,31 +925,20 @@ def hien_thi_robot():
     )
 
     # ========================================================
-    # ROBOT ĐANG ĐÓNG
+    # TRỢ LÝ ĐANG ĐÓNG
     # ========================================================
 
     if not st.session_state["tro_ly_mo"]:
 
-        with st.container(
-            key="tro-ly-closed"
-        ):
-
-            if avatar_path.exists():
-
-                st.image(
-                    str(avatar_path),
-                    width=100
-                )
+        with st.container(key="tro-ly-closed"):
 
             if st.button(
-                "💬 Trợ lý",
+                "🍓",
                 key="mo_tro_ly",
-                width="stretch"
+                help="Mở trợ lý Dâu Tây"
             ):
 
-                st.session_state[
-                    "tro_ly_mo"
-                ] = True
+                st.session_state["tro_ly_mo"] = True
 
                 st.rerun()
 
@@ -935,7 +954,7 @@ def hien_thi_robot():
             key="tro-ly-full"
         )
 
-        chieu_cao_lich_su = 430
+        chieu_cao_lich_su = 500
 
     else:
 
@@ -943,7 +962,7 @@ def hien_thi_robot():
             key="tro-ly-chat"
         )
 
-        chieu_cao_lich_su = 360
+        chieu_cao_lich_su = 330
 
     # ========================================================
     # CHATBOX
@@ -962,7 +981,7 @@ def hien_thi_robot():
             col_expand,
             col_close
         ) = st.columns(
-            [0.9, 4.5, 0.8, 0.8, 0.8],
+            [0.8, 4.3, 0.7, 0.7, 0.7],
             vertical_alignment="center"
         )
 
@@ -976,37 +995,35 @@ def hien_thi_robot():
 
                 st.image(
                     str(avatar_path),
-                    width=45
+                    width=42
                 )
 
+            else:
+
+                st.markdown("🍓")
+
         # ====================================================
-        # TÊN DÂU TÂY
+        # TÊN
         # ====================================================
 
         with col_title:
 
             st.markdown(
-                '<div class="dau-tay-title">'
-                '🍓 Dâu Tây'
-                '</div>',
-                unsafe_allow_html=True
+                "**🍓 Dâu Tây**"
             )
 
-            st.markdown(
-                '<div class="dau-tay-status">'
-                '● Đang hoạt động • Qwen 2.5 3B'
-                '</div>',
-                unsafe_allow_html=True
+            st.caption(
+                "● Đang hoạt động · Qwen 2.5 3B"
             )
 
         # ====================================================
-        # XÓA CHAT
+        # XÓA
         # ====================================================
 
         with col_clear:
 
             if st.button(
-                "🗑️",
+                "🗑",
                 key="xoa_tro_ly",
                 help="Xóa lịch sử trò chuyện"
             ):
@@ -1085,9 +1102,7 @@ def hien_thi_robot():
                         avatar="🍓"
                     ):
 
-                        st.caption(
-                            "🤖 DÂU TÂY"
-                        )
+                        st.caption("DÂU TÂY")
 
                         st.markdown(
                             noi_dung
@@ -1100,9 +1115,7 @@ def hien_thi_robot():
                         avatar="👤"
                     ):
 
-                        st.caption(
-                            "👤 BẠN"
-                        )
+                        st.caption("BẠN")
 
                         st.markdown(
                             noi_dung
@@ -1256,7 +1269,7 @@ def hien_thi_robot():
                 st.rerun()
 
         # ====================================================
-        # Ô NHẬP
+        # Ô NHẬP CHAT
         # ====================================================
 
         cau_hoi = st.chat_input(

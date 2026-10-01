@@ -12,10 +12,6 @@ from Database.database import get_connection
 
 class NopTienController:
 
-    # ==========================================================
-    # HÀM PHỤ
-    # ==========================================================
-
     @staticmethod
     def _to_date(value):
         if value is None:
@@ -25,9 +21,7 @@ class NopTienController:
             return value
 
         try:
-            return date.fromisoformat(
-                str(value)[:10]
-            )
+            return date.fromisoformat(str(value)[:10])
         except Exception:
             return None
 
@@ -35,7 +29,6 @@ class NopTienController:
     def _status(balance):
         balance = float(balance or 0)
 
-        # Tránh sai số float rất nhỏ
         if abs(balance) < 0.01:
             return "Đã đủ"
 
@@ -46,7 +39,6 @@ class NopTienController:
 
     @staticmethod
     def _month_range(year, month):
-
         start = date(
             int(year),
             int(month),
@@ -54,26 +46,17 @@ class NopTienController:
         )
 
         if int(month) == 12:
-
-            end = date(
-                int(year) + 1,
-                1,
-                1
-            ) - timedelta(days=1)
-
+            end = (
+                date(int(year) + 1, 1, 1)
+                - timedelta(days=1)
+            )
         else:
-
-            end = date(
-                int(year),
-                int(month) + 1,
-                1
-            ) - timedelta(days=1)
+            end = (
+                date(int(year), int(month) + 1, 1)
+                - timedelta(days=1)
+            )
 
         return start, end
-
-    # ==========================================================
-    # THÊM GIAO DỊCH
-    # ==========================================================
 
     @staticmethod
     def them_giao_dich(
@@ -83,29 +66,20 @@ class NopTienController:
         hinh_thuc="Tiền mặt",
         ghi_chu=None
     ):
-
         try:
-
             if nguoi_an_id is None:
-                raise ValueError(
-                    "Chưa chọn người nộp."
-                )
+                raise ValueError("Chưa chọn người nộp.")
 
             so_tien = float(so_tien)
 
             if so_tien <= 0:
-                raise ValueError(
-                    "Số tiền phải lớn hơn 0."
-                )
+                raise ValueError("Số tiền phải lớn hơn 0.")
 
             if not ngay_nop:
-                raise ValueError(
-                    "Ngày nộp không hợp lệ."
-                )
+                raise ValueError("Ngày nộp không hợp lệ.")
 
             giao_dich_id = (
-                GiaoDichNopTienModel
-                .them_giao_dich(
+                GiaoDichNopTienModel.them_giao_dich(
                     nguoi_an_id=nguoi_an_id,
                     ngay_nop=ngay_nop,
                     so_tien=so_tien,
@@ -131,93 +105,57 @@ class NopTienController:
             }
 
         except ValueError as error:
-
             return {
                 "success": False,
                 "message": str(error)
             }
 
         except Exception as error:
-
             return {
                 "success": False,
                 "message": f"Có lỗi xảy ra: {error}"
             }
 
-    # ==========================================================
-    # LẤY TẤT CẢ
-    # ==========================================================
-
     @staticmethod
     def lay_tat_ca():
-
         try:
-
             return {
                 "success": True,
-                "data": (
-                    GiaoDichNopTienModel
-                    .lay_tat_ca()
-                )
+                "data": GiaoDichNopTienModel.lay_tat_ca()
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể lấy giao dịch: {error}"
-                ),
+                "message": f"Không thể lấy giao dịch: {error}",
                 "data": []
             }
-
-    # ==========================================================
-    # THEO NGƯỜI
-    # ==========================================================
 
     @staticmethod
     def lay_theo_nguoi(nguoi_an_id):
-
         try:
-
             return {
                 "success": True,
-                "data": (
-                    GiaoDichNopTienModel
-                    .lay_theo_nguoi(
-                        nguoi_an_id
-                    )
+                "data": GiaoDichNopTienModel.lay_theo_nguoi(
+                    nguoi_an_id
                 )
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể lấy giao dịch: {error}"
-                ),
+                "message": f"Không thể lấy giao dịch: {error}",
                 "data": []
             }
 
-    # ==========================================================
-    # TÌM THEO ID
-    # ==========================================================
-
     @staticmethod
     def tim_theo_id(giao_dich_id):
-
         try:
-
-            data = (
-                GiaoDichNopTienModel
-                .tim_theo_id(
-                    giao_dich_id
-                )
+            data = GiaoDichNopTienModel.tim_theo_id(
+                giao_dich_id
             )
 
             if data is None:
-
                 return {
                     "success": False,
                     "message": "Không tìm thấy giao dịch.",
@@ -230,18 +168,11 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể lấy giao dịch: {error}"
-                ),
+                "message": f"Không thể lấy giao dịch: {error}",
                 "data": None
             }
-
-    # ==========================================================
-    # SỬA GIAO DỊCH
-    # ==========================================================
 
     @staticmethod
     def cap_nhat_giao_dich(
@@ -252,33 +183,35 @@ class NopTienController:
         hinh_thuc="Tiền mặt",
         ghi_chu=None
     ):
-
         try:
+            if giao_dich_id is None:
+                raise ValueError("Giao dịch không hợp lệ.")
+
+            if nguoi_an_id is None:
+                raise ValueError("Chưa chọn người nộp.")
+
+            if not ngay_nop:
+                raise ValueError("Ngày nộp không hợp lệ.")
 
             so_tien = float(so_tien)
 
             if so_tien <= 0:
-                raise ValueError(
-                    "Số tiền phải lớn hơn 0."
-                )
+                raise ValueError("Số tiền phải lớn hơn 0.")
 
             giao_dich_cu = (
-                GiaoDichNopTienModel
-                .tim_theo_id(
+                GiaoDichNopTienModel.tim_theo_id(
                     giao_dich_id
                 )
             )
 
             if giao_dich_cu is None:
-
                 return {
                     "success": False,
                     "message": "Không tìm thấy giao dịch."
                 }
 
             so_dong = (
-                GiaoDichNopTienModel
-                .cap_nhat(
+                GiaoDichNopTienModel.cap_nhat(
                     giao_dich_id=giao_dich_id,
                     nguoi_an_id=nguoi_an_id,
                     ngay_nop=ngay_nop,
@@ -289,7 +222,6 @@ class NopTienController:
             )
 
             if so_dong == 0:
-
                 return {
                     "success": False,
                     "message": (
@@ -314,37 +246,26 @@ class NopTienController:
 
             return {
                 "success": True,
-                "message": (
-                    "Cập nhật giao dịch thành công."
-                )
+                "message": "Cập nhật giao dịch thành công."
             }
 
         except ValueError as error:
-
             return {
                 "success": False,
                 "message": str(error)
             }
 
         except Exception as error:
-
             return {
                 "success": False,
                 "message": f"Có lỗi xảy ra: {error}"
             }
 
-    # ==========================================================
-    # TỔNG ĐÃ NỘP
-    # ==========================================================
-
     @staticmethod
     def tong_tien_da_nop(nguoi_an_id):
-
         try:
-
             value = (
-                GiaoDichNopTienModel
-                .tong_tien_da_nop(
+                GiaoDichNopTienModel.tong_tien_da_nop(
                     nguoi_an_id
                 )
             )
@@ -355,18 +276,11 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể tính tổng tiền: {error}"
-                ),
+                "message": f"Không thể tính tổng tiền: {error}",
                 "data": 0
             }
-
-    # ==========================================================
-    # TỔNG ĐÃ NỘP THEO KHOẢNG
-    # ==========================================================
 
     @staticmethod
     def tong_tien_theo_khoang_thoi_gian(
@@ -374,9 +288,7 @@ class NopTienController:
         den_ngay=None,
         nguoi_an_id=None
     ):
-
         try:
-
             value = (
                 GiaoDichNopTienModel
                 .tong_tien_theo_khoang_thoi_gian(
@@ -392,18 +304,11 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể tính tổng tiền: {error}"
-                ),
+                "message": f"Không thể tính tổng tiền: {error}",
                 "data": 0
             }
-
-    # ==========================================================
-    # LẤY GIAO DỊCH THEO KHOẢNG
-    # ==========================================================
 
     @staticmethod
     def lay_theo_khoang_thoi_gian(
@@ -413,9 +318,7 @@ class NopTienController:
         bo_phan_id=None,
         hinh_thuc=None
     ):
-
         try:
-
             data = (
                 GiaoDichNopTienModel
                 .lay_theo_khoang_thoi_gian(
@@ -433,27 +336,18 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể lấy giao dịch: {error}"
-                ),
+                "message": f"Không thể lấy giao dịch: {error}",
                 "data": []
             }
-
-    # ==========================================================
-    # THỐNG KÊ HÌNH THỨC NỘP
-    # ==========================================================
 
     @staticmethod
     def tong_tien_theo_hinh_thuc(
         tu_ngay=None,
         den_ngay=None
     ):
-
         try:
-
             raw = (
                 GiaoDichNopTienModel
                 .tong_tien_theo_hinh_thuc(
@@ -465,7 +359,6 @@ class NopTienController:
             result = []
 
             for row in raw or []:
-
                 method = (
                     row[0]
                     if len(row) > 0
@@ -482,50 +375,32 @@ class NopTienController:
                     {
                         "hinh_thuc": method,
                         "so_giao_dich": 0,
-                        "tong_tien": float(
-                            amount or 0
-                        )
+                        "tong_tien": float(amount or 0)
                     }
                 )
 
-            # Đếm số giao dịch riêng
             connection = get_connection()
 
             try:
-
                 cursor = connection.cursor()
 
                 dieu_kien = []
                 params = []
 
                 if tu_ngay:
-
-                    dieu_kien.append(
-                        "NgayNop >= ?"
-                    )
-
-                    params.append(
-                        tu_ngay
-                    )
+                    dieu_kien.append("NgayNop >= ?")
+                    params.append(tu_ngay)
 
                 if den_ngay:
-
-                    dieu_kien.append(
-                        "NgayNop <= ?"
-                    )
-
-                    params.append(
-                        den_ngay
-                    )
+                    dieu_kien.append("NgayNop <= ?")
+                    params.append(den_ngay)
 
                 where = ""
 
                 if dieu_kien:
                     where = (
                         "WHERE "
-                        + " AND ".join(
-                            dieu_kien
-                        )
+                        + " AND ".join(dieu_kien)
                     )
 
                 cursor.execute(
@@ -546,11 +421,9 @@ class NopTienController:
                 }
 
             finally:
-
                 connection.close()
 
             for item in result:
-
                 item["so_giao_dich"] = (
                     count_map.get(
                         item["hinh_thuc"],
@@ -564,7 +437,6 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
                 "message": (
@@ -573,19 +445,13 @@ class NopTienController:
                 "data": []
             }
 
-    # ==========================================================
-    # ĐẾM SỐ LẦN NỘP
-    # ==========================================================
-
     @staticmethod
     def dem_so_lan_nop(
         nguoi_an_id,
         tu_ngay=None,
         den_ngay=None
     ):
-
         try:
-
             value = (
                 GiaoDichNopTienModel
                 .dem_so_lan_nop(
@@ -601,28 +467,17 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể đếm số lần nộp: {error}"
-                ),
+                "message": f"Không thể đếm số lần nộp: {error}",
                 "data": 0
             }
 
-    # ==========================================================
-    # TIỀN PHẢI TRẢ TOÀN BỘ
-    # ==========================================================
-
     @staticmethod
-    def tinh_tien_phai_tra(
-        nguoi_an_id
-    ):
-
+    def tinh_tien_phai_tra(nguoi_an_id):
         connection = get_connection()
 
         try:
-
             cursor = connection.cursor()
 
             cursor.execute(
@@ -636,33 +491,15 @@ class NopTienController:
                 WHERE NguoiAnId = ?
                   AND DaAn = 1
                 """,
-                (
-                    nguoi_an_id,
-                )
+                (nguoi_an_id,)
             )
 
             result = cursor.fetchone()
 
-            return float(
-                result[0] or 0
-            )
+            return float(result[0] or 0)
 
         finally:
-
             connection.close()
-
-    # ==========================================================
-    # TIỀN PHẢI TRẢ THEO KHOẢNG
-    #
-    # Chỉ tính DaAn = 1.
-    #
-    # Vì vậy:
-    # - Đi công tác
-    # - Không ăn
-    # - Nghỉ
-    #
-    # nếu không có DaAn = 1 thì không bị tính tiền.
-    # ==========================================================
 
     @staticmethod
     def tinh_tien_phai_tra_theo_khoang(
@@ -670,11 +507,9 @@ class NopTienController:
         tu_ngay=None,
         den_ngay=None
     ):
-
         connection = get_connection()
 
         try:
-
             cursor = connection.cursor()
 
             dieu_kien = [
@@ -684,34 +519,22 @@ class NopTienController:
             params = []
 
             if nguoi_an_id is not None:
-
                 dieu_kien.append(
                     "c.NguoiAnId = ?"
                 )
-
-                params.append(
-                    nguoi_an_id
-                )
+                params.append(nguoi_an_id)
 
             if tu_ngay:
-
                 dieu_kien.append(
                     "n.Ngay >= ?"
                 )
-
-                params.append(
-                    tu_ngay
-                )
+                params.append(tu_ngay)
 
             if den_ngay:
-
                 dieu_kien.append(
                     "n.Ngay <= ?"
                 )
-
-                params.append(
-                    den_ngay
-                )
+                params.append(den_ngay)
 
             cursor.execute(
                 f"""
@@ -731,65 +554,42 @@ class NopTienController:
 
             result = cursor.fetchone()
 
-            return float(
-                result[0] or 0
-            )
+            return float(result[0] or 0)
 
         finally:
-
             connection.close()
-
-    # ==========================================================
-    # SUẤT ĂN PHÁT SINH
-    #
-    # Không gán vào công nợ cá nhân vì bảng
-    # SuatAnPhatSinh không có NguoiAnId.
-    # ==========================================================
 
     @staticmethod
     def lay_suat_an_phat_sinh(
         tu_ngay=None,
         den_ngay=None
     ):
-
         connection = get_connection()
 
         try:
-
             cursor = connection.cursor()
 
             dieu_kien = []
             params = []
 
             if tu_ngay:
-
                 dieu_kien.append(
                     "n.Ngay >= ?"
                 )
-
-                params.append(
-                    tu_ngay
-                )
+                params.append(tu_ngay)
 
             if den_ngay:
-
                 dieu_kien.append(
                     "n.Ngay <= ?"
                 )
-
-                params.append(
-                    den_ngay
-                )
+                params.append(den_ngay)
 
             where = ""
 
             if dieu_kien:
-
                 where = (
                     "WHERE "
-                    + " AND ".join(
-                        dieu_kien
-                    )
+                    + " AND ".join(dieu_kien)
                 )
 
             cursor.execute(
@@ -822,7 +622,6 @@ class NopTienController:
             return cursor.fetchall()
 
         finally:
-
             connection.close()
 
     @staticmethod
@@ -830,10 +629,8 @@ class NopTienController:
         tu_ngay=None,
         den_ngay=None
     ):
-
         rows = (
-            NopTienController
-            .lay_suat_an_phat_sinh(
+            NopTienController.lay_suat_an_phat_sinh(
                 tu_ngay=tu_ngay,
                 den_ngay=den_ngay
             )
@@ -842,25 +639,16 @@ class NopTienController:
         total = 0
 
         for row in rows:
-
             try:
-                total += float(
-                    row[7] or 0
-                )
+                total += float(row[7] or 0)
             except Exception:
                 pass
 
         return total
 
-    # ==========================================================
-    # SỐ DƯ TOÀN BỘ
-    # ==========================================================
-
     @staticmethod
     def tinh_so_du(nguoi_an_id):
-
         try:
-
             tong_da_nop = (
                 GiaoDichNopTienModel
                 .tong_tien_da_nop(
@@ -896,21 +684,14 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể tính số dư: {error}"
-                ),
+                "message": f"Không thể tính số dư: {error}",
                 "data": 0,
                 "tong_da_nop": 0,
                 "tong_phai_tra": 0,
                 "status": "Không xác định"
             }
-
-    # ==========================================================
-    # CÔNG NỢ TRONG KỲ
-    # ==========================================================
 
     @staticmethod
     def tinh_cong_no_theo_khoang(
@@ -918,9 +699,7 @@ class NopTienController:
         tu_ngay=None,
         den_ngay=None
     ):
-
         try:
-
             tong_da_nop = (
                 GiaoDichNopTienModel
                 .tong_tien_theo_khoang_thoi_gian(
@@ -960,24 +739,14 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể tính công nợ: {error}"
-                ),
+                "message": f"Không thể tính công nợ: {error}",
                 "tong_da_nop": 0,
                 "tong_phai_tra": 0,
                 "so_du": 0,
                 "trang_thai": "Không xác định"
             }
-
-    # ==========================================================
-    # CÔNG NỢ LŨY KẾ
-    #
-    # opening = payment trước kỳ - due trước kỳ
-    # closing = opening + payment kỳ - due kỳ
-    # ==========================================================
 
     @staticmethod
     def tinh_cong_no_luy_ke(
@@ -985,39 +754,21 @@ class NopTienController:
         tu_ngay,
         den_ngay
     ):
-
         try:
-
-            start = (
-                NopTienController
-                ._to_date(tu_ngay)
-            )
-
-            end = (
-                NopTienController
-                ._to_date(den_ngay)
-            )
+            start = NopTienController._to_date(tu_ngay)
+            end = NopTienController._to_date(den_ngay)
 
             if not start or not end:
-
-                raise ValueError(
-                    "Khoảng ngày không hợp lệ."
-                )
+                raise ValueError("Khoảng ngày không hợp lệ.")
 
             if start > end:
-
                 raise ValueError(
                     "Từ ngày không được lớn hơn đến ngày."
                 )
 
             ngay_truoc = (
-                start
-                - timedelta(days=1)
+                start - timedelta(days=1)
             ).isoformat()
-
-            # ------------------------------
-            # Đầu kỳ
-            # ------------------------------
 
             opening_paid = (
                 GiaoDichNopTienModel
@@ -1041,10 +792,6 @@ class NopTienController:
                 float(opening_paid or 0)
                 - float(opening_due or 0)
             )
-
-            # ------------------------------
-            # Trong kỳ
-            # ------------------------------
 
             period_paid = (
                 GiaoDichNopTienModel
@@ -1073,23 +820,15 @@ class NopTienController:
             return {
                 "success": True,
                 "opening_balance": opening_balance,
-                "period_due": float(
-                    period_due or 0
-                ),
-                "period_paid": float(
-                    period_paid or 0
-                ),
+                "period_due": float(period_due or 0),
+                "period_paid": float(period_paid or 0),
                 "closing_balance": closing_balance,
-                "status": (
-                    NopTienController
-                    ._status(
-                        closing_balance
-                    )
+                "status": NopTienController._status(
+                    closing_balance
                 )
             }
 
         except Exception as error:
-
             return {
                 "success": False,
                 "message": (
@@ -1102,55 +841,35 @@ class NopTienController:
                 "status": "Không xác định"
             }
 
-    # ==========================================================
-    # TỔNG HỢP TUẦN
-    # ==========================================================
-
     @staticmethod
     def tong_hop_theo_tuan(
         nguoi_an_id,
         tu_ngay,
         den_ngay
     ):
-
         try:
-
-            start = (
-                NopTienController
-                ._to_date(tu_ngay)
-            )
-
-            end = (
-                NopTienController
-                ._to_date(den_ngay)
-            )
+            start = NopTienController._to_date(tu_ngay)
+            end = NopTienController._to_date(den_ngay)
 
             if not start or not end:
-                raise ValueError(
-                    "Khoảng ngày không hợp lệ."
-                )
+                raise ValueError("Khoảng ngày không hợp lệ.")
 
             if start > end:
-                raise ValueError(
-                    "Khoảng ngày không hợp lệ."
-                )
+                raise ValueError("Khoảng ngày không hợp lệ.")
 
             result = []
 
             first_monday = (
-                start
-                - timedelta(days=start.weekday())
+                start - timedelta(days=start.weekday())
             )
 
             last_saturday = (
-                end
-                + timedelta(days=5 - end.weekday())
+                end + timedelta(days=5 - end.weekday())
             )
 
             current = first_monday
 
             while current <= last_saturday:
-
                 week_end = current + timedelta(days=5)
 
                 summary = (
@@ -1163,7 +882,6 @@ class NopTienController:
                 )
 
                 if summary.get("success"):
-
                     result.append(
                         {
                             "tu_ngay": current,
@@ -1186,10 +904,7 @@ class NopTienController:
                         }
                     )
 
-                current = (
-                    week_end
-                    + timedelta(days=2)
-                )
+                current = week_end + timedelta(days=2)
 
             return {
                 "success": True,
@@ -1197,18 +912,11 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể tổng hợp theo tuần: {error}"
-                ),
+                "message": f"Không thể tổng hợp theo tuần: {error}",
                 "data": []
             }
-
-    # ==========================================================
-    # TỔNG HỢP THÁNG
-    # ==========================================================
 
     @staticmethod
     def tong_hop_theo_thang(
@@ -1216,15 +924,10 @@ class NopTienController:
         nam,
         thang
     ):
-
         try:
-
-            start, end = (
-                NopTienController
-                ._month_range(
-                    nam,
-                    thang
-                )
+            start, end = NopTienController._month_range(
+                nam,
+                thang
             )
 
             summary = (
@@ -1269,24 +972,14 @@ class NopTienController:
                 "status": summary[
                     "status"
                 ],
-                "weeks": weekly.get(
-                    "data",
-                    []
-                )
+                "weeks": weekly.get("data", [])
             }
 
         except Exception as error:
-
             return {
                 "success": False,
-                "message": (
-                    f"Không thể tổng hợp tháng: {error}"
-                )
+                "message": f"Không thể tổng hợp tháng: {error}"
             }
-
-    # ==========================================================
-    # CHI TIẾT TIỀN CƠM
-    # ==========================================================
 
     @staticmethod
     def lay_chi_tiet_tien_com(
@@ -1294,14 +987,9 @@ class NopTienController:
         tu_ngay=None,
         den_ngay=None
     ):
-
         try:
-
-            data = (
-                ChiTietAnModel
-                .lay_theo_nguoi(
-                    nguoi_an_id
-                )
+            data = ChiTietAnModel.lay_theo_nguoi(
+                nguoi_an_id
             )
 
             if not tu_ngay and not den_ngay:
@@ -1310,38 +998,25 @@ class NopTienController:
                     "data": data
                 }
 
-            start = (
-                NopTienController
-                ._to_date(tu_ngay)
-            )
-
-            end = (
-                NopTienController
-                ._to_date(den_ngay)
-            )
+            start = NopTienController._to_date(tu_ngay)
+            end = NopTienController._to_date(den_ngay)
 
             filtered = []
 
             for row in data:
-
-                ngay = (
-                    NopTienController
-                    ._to_date(
-                        row[4]
-                        if len(row) > 4
-                        else None
-                    )
+                ngay = NopTienController._to_date(
+                    row[4]
+                    if len(row) > 4
+                    else None
                 )
 
                 if start and (
-                    not ngay
-                    or ngay < start
+                    not ngay or ngay < start
                 ):
                     continue
 
                 if end and (
-                    not ngay
-                    or ngay > end
+                    not ngay or ngay > end
                 ):
                     continue
 
@@ -1353,7 +1028,6 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
                 "message": (
@@ -1362,15 +1036,9 @@ class NopTienController:
                 "data": []
             }
 
-    # ==========================================================
-    # XÓA
-    # ==========================================================
-
     @staticmethod
     def xoa(giao_dich_id):
-
         try:
-
             giao_dich = (
                 GiaoDichNopTienModel
                 .tim_theo_id(
@@ -1379,7 +1047,6 @@ class NopTienController:
             )
 
             if giao_dich is None:
-
                 return {
                     "success": False,
                     "message": "Không tìm thấy giao dịch."
@@ -1393,7 +1060,6 @@ class NopTienController:
             )
 
             if so_dong == 0:
-
                 return {
                     "success": False,
                     "message": "Không tìm thấy giao dịch."
@@ -1416,15 +1082,10 @@ class NopTienController:
             }
 
         except Exception as error:
-
             return {
                 "success": False,
                 "message": f"Có lỗi xảy ra: {error}"
             }
-
-    # ==========================================================
-    # DATAFRAME - TỔNG HỢP NGƯỜI
-    # ==========================================================
 
     @staticmethod
     def tao_dataframe_tong_hop(
@@ -1432,39 +1093,29 @@ class NopTienController:
         tu_ngay=None,
         den_ngay=None
     ):
-        """
-        Tạo DataFrame dùng cho:
-        - màn hình
-        - Excel
-        """
-
         rows = []
 
         for person in people:
-
             try:
-
                 nguoi_id = person[0]
                 ho_ten = person[1]
 
                 bo_phan_id = (
-                    person[5]
-                    if len(person) > 5
+                    person[3]
+                    if len(person) > 3
                     else None
                 )
 
                 bo_phan = (
-                    person[6]
-                    if len(person) > 6
+                    person[4]
+                    if len(person) > 4
                     else ""
                 )
 
             except Exception:
-
                 continue
 
             if tu_ngay and den_ngay:
-
                 result = (
                     NopTienController
                     .tinh_cong_no_luy_ke(
@@ -1475,18 +1126,11 @@ class NopTienController:
                 )
 
             else:
-
-                result = (
-                    NopTienController
-                    .tinh_so_du(
-                        nguoi_id
-                        if False
-                        else nguoi_id
-                    )
+                result = NopTienController.tinh_so_du(
+                    nguoi_id
                 )
 
                 if result.get("success"):
-
                     result = {
                         "success": True,
                         "opening_balance": 0,
@@ -1517,31 +1161,19 @@ class NopTienController:
                 continue
 
             opening = float(
-                result.get(
-                    "opening_balance",
-                    0
-                ) or 0
+                result.get("opening_balance", 0) or 0
             )
 
             due = float(
-                result.get(
-                    "period_due",
-                    0
-                ) or 0
+                result.get("period_due", 0) or 0
             )
 
             paid = float(
-                result.get(
-                    "period_paid",
-                    0
-                ) or 0
+                result.get("period_paid", 0) or 0
             )
 
             closing = float(
-                result.get(
-                    "closing_balance",
-                    0
-                ) or 0
+                result.get("closing_balance", 0) or 0
             )
 
             rows.append(
@@ -1575,50 +1207,32 @@ class NopTienController:
 
         return pd.DataFrame(rows)
 
-    # ==========================================================
-    # DATAFRAME - THEO TUẦN
-    # ==========================================================
-
     @staticmethod
     def tao_dataframe_tong_hop_tuan(
         people,
         tu_ngay,
         den_ngay
     ):
-
-        start = (
-            NopTienController
-            ._to_date(tu_ngay)
-        )
-
-        end = (
-            NopTienController
-            ._to_date(den_ngay)
-        )
+        start = NopTienController._to_date(tu_ngay)
+        end = NopTienController._to_date(den_ngay)
 
         rows = []
 
         if not start or not end:
             return pd.DataFrame()
 
-        # Tuần chuẩn của công ty: Thứ 2 đến Thứ 7.
-        # Khi khoảng lọc là tháng, tuần đầu/cuối có thể nằm ngoài tháng
-        # để giữ đúng tuần lịch thực tế, giống logic báo cáo.
         first_monday = (
-            start
-            - timedelta(days=start.weekday())
+            start - timedelta(days=start.weekday())
         )
 
         last_saturday = (
-            end
-            + timedelta(days=5 - end.weekday())
+            end + timedelta(days=5 - end.weekday())
         )
 
         current = first_monday
         week_number = 1
 
         while current <= last_saturday:
-
             week_end = current + timedelta(days=5)
 
             opening = 0
@@ -1627,7 +1241,6 @@ class NopTienController:
             closing = 0
 
             for person in people:
-
                 result = (
                     NopTienController
                     .tinh_cong_no_luy_ke(
@@ -1693,18 +1306,10 @@ class NopTienController:
                 }
             )
 
-            current = (
-                week_end
-                + timedelta(days=2)
-            )
-
+            current = week_end + timedelta(days=2)
             week_number += 1
 
         return pd.DataFrame(rows)
-
-    # ==========================================================
-    # DATAFRAME - CHI TIẾT CÁ NHÂN
-    # ==========================================================
 
     @staticmethod
     def tao_dataframe_chi_tiet_ca_nhan(
@@ -1712,7 +1317,6 @@ class NopTienController:
         tu_ngay=None,
         den_ngay=None
     ):
-
         summary = (
             NopTienController
             .tao_dataframe_tong_hop(
@@ -1740,32 +1344,23 @@ class NopTienController:
             ]
         ].copy()
 
-    # ==========================================================
-    # DATAFRAME - TIỀN CƠM
-    # ==========================================================
-
     @staticmethod
     def tao_dataframe_chi_tiet_tien_com(
         people,
         tu_ngay=None,
         den_ngay=None
     ):
-
         rows = []
 
         person_map = {}
 
         for person in people:
-
             try:
-
-                person_map[
-                    person[0]
-                ] = {
+                person_map[person[0]] = {
                     "name": person[1],
                     "department": (
-                        person[6]
-                        if len(person) > 6
+                        person[4]
+                        if len(person) > 4
                         else ""
                     )
                 }
@@ -1774,7 +1369,6 @@ class NopTienController:
                 pass
 
         for nguoi_id, info in person_map.items():
-
             result = (
                 NopTienController
                 .lay_chi_tiet_tien_com(
@@ -1787,11 +1381,7 @@ class NopTienController:
             if not result.get("success"):
                 continue
 
-            for row in result.get(
-                "data",
-                []
-            ):
-
+            for row in result.get("data", []):
                 rows.append(
                     {
                         "Người ID": nguoi_id,
@@ -1829,36 +1419,24 @@ class NopTienController:
 
         return pd.DataFrame(rows)
 
-    # ==========================================================
-    # DATAFRAME - LỊCH SỬ NỘP TIỀN
-    # ==========================================================
-
     @staticmethod
     def tao_dataframe_lich_su_nop_tien(
         people,
         tu_ngay=None,
         den_ngay=None
     ):
-
         person_ids = set()
-
         person_map = {}
 
         for person in people:
-
             try:
+                person_ids.add(person[0])
 
-                person_ids.add(
-                    person[0]
-                )
-
-                person_map[
-                    person[0]
-                ] = {
+                person_map[person[0]] = {
                     "name": person[1],
                     "department": (
-                        person[6]
-                        if len(person) > 6
+                        person[4]
+                        if len(person) > 4
                         else ""
                     )
                 }
@@ -1869,7 +1447,6 @@ class NopTienController:
         rows = []
 
         for person_id in person_ids:
-
             result = (
                 NopTienController
                 .lay_theo_khoang_thoi_gian(
@@ -1882,11 +1459,7 @@ class NopTienController:
             if not result.get("success"):
                 continue
 
-            for row in result.get(
-                "data",
-                []
-            ):
-
+            for row in result.get("data", []):
                 rows.append(
                     {
                         "Giao dịch ID": row[0],
@@ -1912,16 +1485,11 @@ class NopTienController:
 
         return pd.DataFrame(rows)
 
-    # ==========================================================
-    # DATAFRAME - SUẤT ĂN PHÁT SINH
-    # ==========================================================
-
     @staticmethod
     def tao_dataframe_suat_an_phat_sinh(
         tu_ngay=None,
         den_ngay=None
     ):
-
         data = (
             NopTienController
             .lay_suat_an_phat_sinh(
@@ -1933,7 +1501,6 @@ class NopTienController:
         rows = []
 
         for row in data:
-
             rows.append(
                 {
                     "Phát sinh ID": row[0],
@@ -1950,19 +1517,12 @@ class NopTienController:
 
         return pd.DataFrame(rows)
 
-    # ==========================================================
-    # DATAFRAME - VẤN ĐỀ PHÁT SINH
-    # ==========================================================
-
-    @staticmethod
-    @staticmethod
     @staticmethod
     def tao_dataframe_van_de(
-            people,
-            tu_ngay=None,
-            den_ngay=None
+        people,
+        tu_ngay=None,
+        den_ngay=None
     ):
-
         rows = []
 
         summary = (
@@ -1975,11 +1535,8 @@ class NopTienController:
         )
 
         if not summary.empty:
-
             for _, item in summary.iterrows():
-
                 if item["Trạng thái"] == "Còn nợ":
-
                     rows.append(
                         {
                             "Loại": "Công nợ",
@@ -1998,7 +1555,6 @@ class NopTienController:
                     )
 
                 elif item["Trạng thái"] == "Nộp thừa":
-
                     rows.append(
                         {
                             "Loại": "Số dư",

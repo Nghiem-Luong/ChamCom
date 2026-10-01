@@ -11,7 +11,6 @@ from Views.thong_ke_view import hien_thi_thong_ke
 from Views.bao_cao_view import hien_thi_bao_cao
 from Views.he_thong_view import hien_thi_he_thong
 from Views.trang_chu_view import hien_thi_trang_chu
-from Views.robot_assistant import hien_thi_robot
 
 from Views.layout import cai_dat_giao_dien
 
@@ -46,13 +45,6 @@ initialize_database()
 # ==========================================================
 
 lua_chon = hien_thi_menu()
-
-
-# ==========================================================
-# TRỢ LÝ AI
-# ==========================================================
-
-hien_thi_robot()
 
 
 # ==========================================================
@@ -94,6 +86,6 @@ elif lua_chon == "📑 Xuất báo cáo":
     hien_thi_bao_cao()
 
 
-elif lua_chon == "🤖 Trợ lý & hệ thống":
+elif lua_chon == "⚙️ Hệ thống":
 
     hien_thi_he_thong()

@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
+
 import streamlit as st
-import html
 
 
 # ==========================================================
@@ -13,6 +14,65 @@ def cai_dat_giao_dien():
         <style>
 
         /* ==================================================
+           ANIMATION
+           ================================================== */
+
+        @keyframes qlc_fade_up {
+            0% {
+                opacity: 0;
+                transform: translateY(7px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes qlc_fade_in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes qlc_soft_scale {
+            0% {
+                opacity: 0;
+                transform: scale(0.99);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes qlc_pulse {
+            0% {
+                box-shadow:
+                    0 0 0 0
+                    rgba(205, 125, 155, 0.18);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 6px
+                    rgba(205, 125, 155, 0);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 0
+                    rgba(205, 125, 155, 0);
+            }
+        }
+
+
+        /* ==================================================
            TOÀN ỨNG DỤNG
            ================================================== */
 
@@ -21,15 +81,20 @@ def cai_dat_giao_dien():
                 linear-gradient(
                     180deg,
                     #fffafb 0%,
-                    #f8f9fc 45%,
+                    #f9fafc 45%,
                     #f5f7fb 100%
                 );
         }
 
         .block-container {
-            max-width: 1250px;
-            padding-top: 2rem;
-            padding-bottom: 3rem;
+            max-width: 1120px;
+            padding-top: 1.25rem;
+            padding-bottom: 2rem;
+
+            animation:
+                qlc_fade_in
+                0.3s
+                ease-out;
         }
 
 
@@ -38,6 +103,7 @@ def cai_dat_giao_dien():
            ================================================== */
 
         section[data-testid="stSidebar"] {
+
             background:
                 linear-gradient(
                     180deg,
@@ -46,182 +112,179 @@ def cai_dat_giao_dien():
                     #f7f8fc 100%
                 );
 
-            border-right: 1px solid #ebe4e9;
+            border-right:
+                1px solid #ebe4e9;
         }
 
-        section[data-testid="stSidebar"] > div {
-            padding-top: 1.2rem;
+        section[data-testid="stSidebar"]
+        [data-testid="stSidebarContent"] {
+
+            padding-top: 0.8rem;
         }
 
+        section[data-testid="stSidebar"]
+        [role="radiogroup"] {
 
-        /* ---------- Logo ---------- */
+            gap: 3px;
+        }
 
-        .qlc-sidebar-brand {
-            padding: 22px 16px;
+        /* VÙNG MENU */
 
-            border-radius: 18px;
+        section[data-testid="stSidebar"]
+        [role="radiogroup"] label {
+
+            padding: 8px 10px;
+
+            border-radius: 9px;
+
+            border:
+                1px solid transparent;
 
             background:
-                linear-gradient(
-                    145deg,
-                    #fff0f5,
-                    #f6f1ff
-                );
-
-            border: 1px solid #eadde6;
-
-            text-align: center;
-
-            box-shadow:
-                0 5px 18px rgba(70, 50, 65, 0.055);
-        }
-
-        .qlc-sidebar-logo {
-            font-size: 38px;
-            line-height: 1;
-
-            margin-bottom: 10px;
-        }
-
-        .qlc-sidebar-title {
-            color: #493640;
-
-            font-size: 17px;
-            font-weight: 800;
-
-            letter-spacing: 0.3px;
-        }
-
-        .qlc-sidebar-subtitle {
-            margin-top: 5px;
-
-            color: #82747d;
-
-            font-size: 12px;
-        }
-
-
-        /* ---------- Tiêu đề menu ---------- */
-
-        .qlc-sidebar-section {
-            margin: 8px 4px 8px 4px;
-
-            color: #756770;
-
-            font-size: 12px;
-            font-weight: 750;
-
-            letter-spacing: 0.5px;
-        }
-
-
-        /* ---------- Radio menu ---------- */
-
-        section[data-testid="stSidebar"]
-        div[role="radiogroup"] {
-            gap: 5px;
-        }
-
-        section[data-testid="stSidebar"]
-        div[role="radiogroup"] > label {
-            padding: 10px 12px;
-
-            border-radius: 11px;
+                transparent !important;
 
             transition:
-                background 0.15s ease,
-                transform 0.15s ease;
+                background 0.18s ease,
+                transform 0.18s ease,
+                box-shadow 0.18s ease,
+                border-color 0.18s ease;
         }
 
-        section[data-testid="stSidebar"]
-        div[role="radiogroup"] > label:hover {
-            background: #f4edf2;
-        }
+        /* ==================================================
+           HOVER MENU
+           ÉP MÀU SÁNG, KHÔNG CHO STREAMLIT HIỆN XÁM
+           ================================================== */
 
         section[data-testid="stSidebar"]
-        div[role="radiogroup"]
-        > label[data-checked="true"] {
+        [role="radiogroup"] label:hover {
+
             background:
                 linear-gradient(
                     90deg,
-                    #f8e8ef,
-                    #f3eef9
-                );
+                    #ffeaf3 0%,
+                    #f4eaff 100%
+                ) !important;
 
-            border: 1px solid #eadce5;
+            border-color:
+                #edc9da !important;
+
+            transform:
+                translateX(2px);
+
+            box-shadow:
+                0 3px 10px
+                rgba(
+                    190,
+                    125,
+                    160,
+                    0.12
+                );
+        }
+
+        /* Các thành phần bên trong label */
+
+        section[data-testid="stSidebar"]
+        [role="radiogroup"]
+        label:hover > div {
+
+            background:
+                transparent !important;
         }
 
         section[data-testid="stSidebar"]
-        div[role="radiogroup"]
-        > label p {
-            font-size: 14px;
+        [role="radiogroup"]
+        label:hover > div > div {
 
-            font-weight: 600;
-
-            color: #51434b;
+            background:
+                transparent !important;
         }
 
+        section[data-testid="stSidebar"]
+        [role="radiogroup"]
+        label:hover p {
 
-        /* ---------- Footer sidebar ---------- */
-
-        .qlc-sidebar-footer {
-            padding: 12px 8px;
+            color:
+                #984d72 !important;
         }
 
-        .qlc-sidebar-footer-title {
-            color: #5d4d56;
+        /* ==================================================
+           MỤC ĐANG CHỌN
+           ================================================== */
 
-            font-size: 13px;
-            font-weight: 700;
+        section[data-testid="stSidebar"]
+        [role="radiogroup"]
+        label[data-checked="true"] {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #fbdfea 0%,
+                    #eee5ff 100%
+                ) !important;
+
+            border:
+                1px solid #e5c4d5 !important;
+
+            box-shadow:
+                0 3px 10px
+                rgba(
+                    190,
+                    125,
+                    160,
+                    0.10
+                );
         }
 
-        .qlc-sidebar-footer-version {
-            margin-top: 3px;
+        section[data-testid="stSidebar"]
+        [role="radiogroup"]
+        label[data-checked="true"] > div {
 
-            color: #968991;
-
-            font-size: 11px;
+            background:
+                transparent !important;
         }
 
-        .qlc-sidebar-status {
-            display: flex;
-            align-items: center;
+        section[data-testid="stSidebar"]
+        [role="radiogroup"]
+        label[data-checked="true"] p {
 
-            gap: 6px;
+            color:
+                #8f486b !important;
 
-            margin-top: 9px;
-
-            color: #7c7177;
-
-            font-size: 11px;
+            font-weight:
+                700;
         }
 
-        .qlc-status-dot {
-            width: 7px;
-            height: 7px;
+        section[data-testid="stSidebar"]
+        [role="radiogroup"] label p {
 
-            border-radius: 50%;
+            font-size:
+                14px;
 
-            background: #62b77a;
+            font-weight:
+                600;
 
-            display: inline-block;
+            color:
+                #51434b;
+
+            transition:
+                color 0.18s ease;
         }
 
 
         /* ==================================================
-           HEADER TRANG
+           HEADER
            ================================================== */
 
-        .qlc-header {
-            position: relative;
+        [class*="st-key-qlc-page-header-"] {
 
-            overflow: hidden;
+            padding:
+                18px 22px;
 
-            padding: 28px 32px;
+            margin-bottom:
+                16px;
 
-            margin-bottom: 24px;
-
-            border-radius: 22px;
+            border-radius:
+                16px;
 
             background:
                 linear-gradient(
@@ -231,63 +294,57 @@ def cai_dat_giao_dien():
                     #eef7ff 100%
                 );
 
-            border: 1px solid #eadde5;
+            border:
+                1px solid #eadde5;
 
             box-shadow:
-                0 8px 28px rgba(
+                0 5px 18px
+                rgba(
                     80,
                     55,
                     70,
-                    0.07
+                    0.055
                 );
+
+            animation:
+                qlc_fade_up
+                0.35s
+                ease-out;
         }
 
-        .qlc-header::before {
-            content: "";
+        [class*="st-key-qlc-page-header-"]
+        [data-testid="stMarkdownContainer"] h1 {
 
-            position: absolute;
+            color:
+                #463640;
 
-            width: 180px;
-            height: 180px;
+            font-size:
+                26px;
 
-            right: -60px;
-            top: -90px;
+            font-weight:
+                750;
 
-            border-radius: 50%;
+            letter-spacing:
+                -0.35px;
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.55
-                );
+            margin-top:
+                0;
+
+            margin-bottom:
+                4px;
         }
 
-        .qlc-header-title {
-            position: relative;
+        [class*="st-key-qlc-page-header-"]
+        [data-testid="stCaptionContainer"] {
 
-            margin: 0;
+            color:
+                #766872;
 
-            color: #463640;
+            font-size:
+                14px;
 
-            font-size: 30px;
-
-            font-weight: 750;
-
-            letter-spacing: -0.4px;
-        }
-
-        .qlc-header-description {
-            position: relative;
-
-            margin: 8px 0 0 0;
-
-            color: #766872;
-
-            font-size: 15px;
-
-            line-height: 1.6;
+            line-height:
+                1.45;
         }
 
 
@@ -295,95 +352,153 @@ def cai_dat_giao_dien():
            SECTION TITLE
            ================================================== */
 
-        .qlc-section-title {
-            display: flex;
+        [class*="st-key-qlc-section-title-"] {
 
-            align-items: center;
+            margin-top:
+                8px;
 
-            gap: 10px;
+            margin-bottom:
+                9px;
 
-            margin-top: 12px;
+            padding:
+                1px;
 
-            margin-bottom: 14px;
+            animation:
+                qlc_fade_up
+                0.3s
+                ease-out;
+        }
 
-            color: #463740;
+        [class*="st-key-qlc-section-title-"]
+        [data-testid="stMarkdownContainer"] h3 {
 
-            font-size: 20px;
+            color:
+                #463740;
 
-            font-weight: 700;
+            font-size:
+                18px;
+
+            font-weight:
+                700;
+
+            margin:
+                0;
         }
 
 
         /* ==================================================
-           CARD THỐNG KÊ
+           STAT CARD
            ================================================== */
 
-        .qlc-stat-card {
-            min-height: 118px;
+        [class*="st-key-qlc-stat-card-"] {
 
-            padding: 20px 22px;
+            min-height:
+                88px;
 
-            border-radius: 18px;
+            padding:
+                12px 16px;
+
+            border-radius:
+                13px;
 
             background:
                 rgba(
                     255,
                     255,
                     255,
-                    0.92
+                    0.96
                 );
 
-            border: 1px solid #ebe4e8;
+            border:
+                1px solid #ebe4e8;
 
             box-shadow:
-                0 5px 18px rgba(
+                0 3px 12px
+                rgba(
                     60,
                     45,
                     55,
-                    0.055
+                    0.045
                 );
 
             transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease;
+                transform 0.16s ease,
+                box-shadow 0.16s ease,
+                border-color 0.16s ease;
+
+            animation:
+                qlc_soft_scale
+                0.32s
+                ease-out;
         }
 
-        .qlc-stat-card:hover {
-            transform: translateY(-2px);
+        [class*="st-key-qlc-stat-card-"]:hover {
+
+            transform:
+                translateY(-2px);
+
+            border-color:
+                #dfc4d2;
 
             box-shadow:
-                0 8px 22px rgba(
+                0 7px 18px
+                rgba(
                     60,
                     45,
                     55,
-                    0.08
+                    0.075
                 );
         }
 
-        .qlc-stat-icon {
-            font-size: 22px;
+        [class*="st-key-qlc-stat-card-"]
+        [data-testid="stMarkdownContainer"] p {
 
-            margin-bottom: 8px;
+            margin-top:
+                0;
+
+            margin-bottom:
+                2px;
         }
 
-        .qlc-stat-title {
-            color: #81747b;
+        [class*="st-key-qlc-stat-card-"]
+        [data-testid="stMarkdownContainer"] h4 {
 
-            font-size: 13px;
+            color:
+                #81747b;
 
-            font-weight: 600;
+            font-size:
+                12px;
 
-            margin-bottom: 5px;
+            font-weight:
+                600;
+
+            margin-top:
+                0;
+
+            margin-bottom:
+                2px;
         }
 
-        .qlc-stat-value {
-            color: #41343c;
+        [class*="st-key-qlc-stat-card-"]
+        [data-testid="stMarkdownContainer"] h2 {
 
-            font-size: 26px;
+            color:
+                #41343c;
 
-            font-weight: 750;
+            font-size:
+                23px;
 
-            line-height: 1.2;
+            font-weight:
+                750;
+
+            line-height:
+                1.15;
+
+            margin-top:
+                0;
+
+            margin-bottom:
+                0;
         }
 
 
@@ -391,40 +506,96 @@ def cai_dat_giao_dien():
            INFO CARD
            ================================================== */
 
-        .qlc-info-card {
-            padding: 18px 20px;
+        [class*="st-key-qlc-info-card-"] {
 
-            border-radius: 16px;
+            padding:
+                13px 16px;
 
-            background: #ffffff;
+            border-radius:
+                13px;
 
-            border: 1px solid #ebe5e9;
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.96
+                );
+
+            border:
+                1px solid #ebe5e9;
 
             box-shadow:
-                0 4px 15px rgba(
+                0 3px 12px
+                rgba(
                     60,
                     45,
                     55,
-                    0.045
+                    0.04
+                );
+
+            transition:
+                transform 0.16s ease,
+                box-shadow 0.16s ease,
+                border-color 0.16s ease;
+
+            animation:
+                qlc_fade_up
+                0.32s
+                ease-out;
+        }
+
+        [class*="st-key-qlc-info-card-"]:hover {
+
+            transform:
+                translateY(-1px);
+
+            border-color:
+                #dfcbd6;
+
+            box-shadow:
+                0 6px 17px
+                rgba(
+                    60,
+                    45,
+                    55,
+                    0.065
                 );
         }
 
-        .qlc-info-title {
-            color: #51434b;
+        [class*="st-key-qlc-info-card-"]
+        [data-testid="stMarkdownContainer"] h4 {
 
-            font-size: 15px;
+            color:
+                #51434b;
 
-            font-weight: 700;
+            font-size:
+                14px;
 
-            margin-bottom: 5px;
+            font-weight:
+                700;
+
+            margin-top:
+                0;
+
+            margin-bottom:
+                3px;
         }
 
-        .qlc-info-text {
-            color: #81747b;
+        [class*="st-key-qlc-info-card-"]
+        [data-testid="stMarkdownContainer"] p {
 
-            font-size: 14px;
+            color:
+                #81747b;
 
-            line-height: 1.55;
+            font-size:
+                13px;
+
+            line-height:
+                1.45;
+
+            margin-bottom:
+                0;
         }
 
 
@@ -433,29 +604,61 @@ def cai_dat_giao_dien():
            ================================================== */
 
         .stButton > button {
-            min-height: 42px !important;
 
-            border-radius: 11px !important;
+            min-height:
+                38px !important;
 
-            border: 1px solid #e5dce1 !important;
+            padding:
+                5px 13px !important;
 
-            font-weight: 600 !important;
+            border-radius:
+                9px !important;
+
+            border:
+                1px solid #e3d8de !important;
+
+            font-weight:
+                600 !important;
 
             transition:
-                transform 0.12s ease,
-                box-shadow 0.12s ease;
+                transform 0.14s ease,
+                box-shadow 0.14s ease,
+                background 0.14s ease,
+                border-color 0.14s ease;
         }
 
         .stButton > button:hover {
-            transform: translateY(-1px);
+
+            transform:
+                translateY(-1px);
+
+            background:
+                #fff3f7 !important;
+
+            border-color:
+                #e1b9ca !important;
 
             box-shadow:
-                0 5px 14px rgba(
-                    70,
-                    50,
-                    65,
-                    0.09
+                0 4px 12px
+                rgba(
+                    190,
+                    125,
+                    160,
+                    0.10
                 );
+        }
+
+        .stButton > button:active {
+
+            transform:
+                translateY(1px)
+                scale(0.985);
+        }
+
+        .stButton > button:focus {
+
+            outline:
+                none !important;
         }
 
 
@@ -469,7 +672,31 @@ def cai_dat_giao_dien():
         .stTimeInput input,
         .stTextArea textarea {
 
-            border-radius: 11px !important;
+            border-radius:
+                9px !important;
+
+            transition:
+                border-color 0.15s ease,
+                box-shadow 0.15s ease;
+        }
+
+        .stTextInput input:focus,
+        .stNumberInput input:focus,
+        .stDateInput input:focus,
+        .stTimeInput input:focus,
+        .stTextArea textarea:focus {
+
+            border-color:
+                #d9a9bd !important;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    217,
+                    169,
+                    189,
+                    0.13
+                ) !important;
         }
 
 
@@ -477,8 +704,42 @@ def cai_dat_giao_dien():
            SELECTBOX
            ================================================== */
 
-        div[data-baseweb="select"] > div {
-            border-radius: 11px !important;
+        [data-baseweb="select"] {
+
+            border-radius:
+                9px !important;
+        }
+
+        [data-baseweb="select"] > div {
+
+            border-radius:
+                9px !important;
+        }
+
+
+        /* ==================================================
+           CHECKBOX / RADIO
+           ================================================== */
+
+        [data-testid="stCheckbox"] label,
+        [data-testid="stRadio"] label {
+
+            transition:
+                opacity 0.15s ease,
+                background 0.15s ease;
+        }
+
+        [data-testid="stCheckbox"] label:hover,
+        [data-testid="stRadio"] label:hover {
+
+            opacity:
+                1;
+
+            background:
+                #fff1f6;
+
+            border-radius:
+                7px;
         }
 
 
@@ -486,10 +747,42 @@ def cai_dat_giao_dien():
            EXPANDER
            ================================================== */
 
-        .streamlit-expanderHeader {
-            border-radius: 12px !important;
+        [data-testid="stExpander"] {
 
-            font-weight: 600 !important;
+            border-radius:
+                10px !important;
+
+            border-color:
+                #ebe5e9 !important;
+
+            transition:
+                box-shadow 0.18s ease,
+                border-color 0.18s ease,
+                background 0.18s ease;
+        }
+
+        [data-testid="stExpander"]:hover {
+
+            border-color:
+                #dfcbd6 !important;
+
+            background:
+                #fffafd !important;
+
+            box-shadow:
+                0 3px 12px
+                rgba(
+                    60,
+                    45,
+                    55,
+                    0.045
+                );
+        }
+
+        [data-testid="stExpander"] summary {
+
+            font-weight:
+                600 !important;
         }
 
 
@@ -497,12 +790,52 @@ def cai_dat_giao_dien():
            DATAFRAME
            ================================================== */
 
-        div[data-testid="stDataFrame"] {
-            border-radius: 14px;
+        [data-testid="stDataFrame"] {
 
-            overflow: hidden;
+            border-radius:
+                11px;
 
-            border: 1px solid #ebe5e9;
+            overflow:
+                hidden;
+
+            border:
+                1px solid #e7dfe4;
+
+            animation:
+                qlc_fade_up
+                0.35s
+                ease-out;
+
+            box-shadow:
+                0 3px 12px
+                rgba(
+                    60,
+                    45,
+                    55,
+                    0.035
+                );
+        }
+
+
+        /* ==================================================
+           TABLE
+           ================================================== */
+
+        [data-testid="stTable"] {
+
+            border-radius:
+                11px;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid #e7dfe4;
+
+            animation:
+                qlc_fade_up
+                0.35s
+                ease-out;
         }
 
 
@@ -510,27 +843,19 @@ def cai_dat_giao_dien():
            ALERT
            ================================================== */
 
-        div[data-testid="stAlert"] {
-            border-radius: 13px;
-        }
+        [data-testid="stAlert"] {
 
+            border-radius:
+                10px;
 
-        /* ==================================================
-           METRIC STREAMLIT
-           ================================================== */
-
-        div[data-testid="stMetric"] {
-
-            padding: 15px 17px;
-
-            border-radius: 15px;
-
-            background: #ffffff;
-
-            border: 1px solid #ebe5e9;
+            animation:
+                qlc_fade_up
+                0.3s
+                ease-out;
 
             box-shadow:
-                0 4px 14px rgba(
+                0 3px 12px
+                rgba(
                     60,
                     45,
                     55,
@@ -540,11 +865,53 @@ def cai_dat_giao_dien():
 
 
         /* ==================================================
+           METRIC
+           ================================================== */
+
+        [data-testid="stMetric"] {
+
+            padding:
+                11px 14px;
+
+            border-radius:
+                12px;
+
+            background:
+                #ffffff;
+
+            border:
+                1px solid #ebe5e9;
+
+            box-shadow:
+                0 3px 11px
+                rgba(
+                    60,
+                    45,
+                    55,
+                    0.035
+                );
+
+            animation:
+                qlc_soft_scale
+                0.3s
+                ease-out;
+        }
+
+
+        /* ==================================================
            DIVIDER
            ================================================== */
 
         hr {
-            border-color: #ebe5e9 !important;
+
+            border-color:
+                #ebe5e9 !important;
+
+            margin-top:
+                0.7rem !important;
+
+            margin-bottom:
+                0.7rem !important;
         }
 
 
@@ -552,8 +919,23 @@ def cai_dat_giao_dien():
            TAB
            ================================================== */
 
-        button[data-baseweb="tab"] {
-            font-weight: 600;
+        [data-baseweb="tab"] {
+
+            font-weight:
+                600;
+
+            transition:
+                color 0.15s ease,
+                transform 0.15s ease;
+        }
+
+        [data-baseweb="tab"]:hover {
+
+            transform:
+                translateY(-1px);
+
+            color:
+                #a65379;
         }
 
 
@@ -561,18 +943,30 @@ def cai_dat_giao_dien():
            FOOTER
            ================================================== */
 
-        .qlc-footer {
-            margin-top: 35px;
+        [class*="st-key-qlc-footer-"] {
 
-            padding-top: 18px;
+            margin-top:
+                24px;
 
-            border-top: 1px solid #ebe5e9;
+            padding-top:
+                12px;
 
-            text-align: center;
+            border-top:
+                1px solid #ebe5e9;
 
-            color: #988b92;
+            text-align:
+                center;
 
-            font-size: 13px;
+            color:
+                #988b92;
+
+            font-size:
+                12px;
+
+            animation:
+                qlc_fade_in
+                0.45s
+                ease-out;
         }
 
 
@@ -583,37 +977,324 @@ def cai_dat_giao_dien():
         @media (max-width: 768px) {
 
             .block-container {
-                padding-top: 1rem;
-                padding-left: 1rem;
-                padding-right: 1rem;
+
+                padding-top:
+                    0.8rem;
+
+                padding-left:
+                    0.8rem;
+
+                padding-right:
+                    0.8rem;
+
+                padding-bottom:
+                    1.5rem;
             }
 
-            .qlc-header {
-                padding: 22px;
+            [class*="st-key-qlc-page-header-"] {
+
+                padding:
+                    16px;
+
+                margin-bottom:
+                    12px;
+
+                border-radius:
+                    13px;
             }
 
-            .qlc-header-title {
-                font-size: 24px;
+            [class*="st-key-qlc-page-header-"]
+            [data-testid="stMarkdownContainer"] h1 {
+
+                font-size:
+                    22px;
             }
 
-            .qlc-header-description {
-                font-size: 14px;
+            [class*="st-key-qlc-stat-card-"] {
+
+                min-height:
+                    78px;
+
+                padding:
+                    10px 13px;
             }
 
-            .qlc-stat-card {
-                min-height: 105px;
+            [class*="st-key-qlc-stat-card-"]
+            [data-testid="stMarkdownContainer"] h2 {
 
-                padding: 16px;
+                font-size:
+                    20px;
             }
 
-            .qlc-stat-value {
-                font-size: 22px;
+            [class*="st-key-qlc-info-card-"] {
+
+                padding:
+                    12px 13px;
+            }
+
+            .stButton > button {
+
+                min-height:
+                    42px !important;
+            }
+        }
+
+
+        /* ==================================================
+           GIẢM ANIMATION
+           ================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration:
+                    0.01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    0.01ms !important;
+            }
+        }
+
+
+        /* ==================================================
+           DARK MODE
+           ================================================== */
+
+        @media (prefers-color-scheme: dark) {
+
+            .stApp {
+
+                background:
+                    linear-gradient(
+                        180deg,
+                        #17171a 0%,
+                        #191a1e 50%,
+                        #16181c 100%
+                    );
+            }
+
+            section[data-testid="stSidebar"] {
+
+                background:
+                    linear-gradient(
+                        180deg,
+                        #1d1b1f 0%,
+                        #1b1b20 55%,
+                        #181a1f 100%
+                    );
+
+                border-color:
+                    #303038;
+            }
+
+            section[data-testid="stSidebar"]
+            [role="radiogroup"] label p {
+
+                color:
+                    #d8ced4;
+            }
+
+            /* DARK MODE - HOVER SÁNG */
+
+            section[data-testid="stSidebar"]
+            [role="radiogroup"] label:hover {
+
+                background:
+                    linear-gradient(
+                        90deg,
+                        #49333e,
+                        #3d354e
+                    ) !important;
+
+                border-color:
+                    #6b4d5d !important;
+
+                box-shadow:
+                    0 3px 12px
+                    rgba(
+                        210,
+                        130,
+                        170,
+                        0.13
+                    );
+            }
+
+            section[data-testid="stSidebar"]
+            [role="radiogroup"] label:hover > div,
+            section[data-testid="stSidebar"]
+            [role="radiogroup"] label:hover > div > div {
+
+                background:
+                    transparent !important;
+            }
+
+            section[data-testid="stSidebar"]
+            [role="radiogroup"] label:hover p {
+
+                color:
+                    #ffd8e8 !important;
+            }
+
+            section[data-testid="stSidebar"]
+            [role="radiogroup"]
+            label[data-checked="true"] {
+
+                background:
+                    linear-gradient(
+                        90deg,
+                        #503540,
+                        #403750
+                    ) !important;
+
+                border-color:
+                    #725266 !important;
+            }
+
+            [class*="st-key-qlc-page-header-"] {
+
+                background:
+                    linear-gradient(
+                        135deg,
+                        #30252c 0%,
+                        #282530 52%,
+                        #222b33 100%
+                    );
+
+                border-color:
+                    #403942;
+            }
+
+            [class*="st-key-qlc-page-header-"]
+            [data-testid="stMarkdownContainer"] h1 {
+
+                color:
+                    #f4eaf0;
+            }
+
+            [class*="st-key-qlc-page-header-"]
+            [data-testid="stCaptionContainer"] {
+
+                color:
+                    #c1b5bc;
+            }
+
+            [class*="st-key-qlc-section-title-"]
+            [data-testid="stMarkdownContainer"] h3 {
+
+                color:
+                    #f0e6eb;
+            }
+
+            [class*="st-key-qlc-stat-card-"],
+            [class*="st-key-qlc-info-card-"] {
+
+                background:
+                    #202126;
+
+                border-color:
+                    #36373d;
+            }
+
+            [class*="st-key-qlc-stat-card-"]
+            [data-testid="stMarkdownContainer"] h4 {
+
+                color:
+                    #b9adb4;
+            }
+
+            [class*="st-key-qlc-stat-card-"]
+            [data-testid="stMarkdownContainer"] h2 {
+
+                color:
+                    #f1ebee;
+            }
+
+            [class*="st-key-qlc-info-card-"]
+            [data-testid="stMarkdownContainer"] h4 {
+
+                color:
+                    #eee5e9;
+            }
+
+            [class*="st-key-qlc-info-card-"]
+            [data-testid="stMarkdownContainer"] p {
+
+                color:
+                    #b8adb3;
+            }
+
+            [data-testid="stMetric"] {
+
+                background:
+                    #202126;
+
+                border-color:
+                    #36373d;
+            }
+
+            [class*="st-key-qlc-footer-"] {
+
+                border-color:
+                    #36373d;
+
+                color:
+                    #9e959a;
+            }
+
+            [data-testid="stExpander"] {
+
+                border-color:
+                    #36373d !important;
+            }
+
+            .stButton > button:hover {
+
+                background:
+                    #3b2933 !important;
+
+                border-color:
+                    #704c5e !important;
+            }
+
+            [data-testid="stCheckbox"] label:hover,
+            [data-testid="stRadio"] label:hover {
+
+                background:
+                    #342a30;
             }
         }
 
         </style>
         """,
         unsafe_allow_html=True
+    )
+
+
+# ==========================================================
+# BỘ ĐẾM KEY
+# ==========================================================
+
+def _next_key(prefix):
+
+    key_name = (
+        f"_qlc_counter_{prefix}"
+    )
+
+    if key_name not in st.session_state:
+
+        st.session_state[key_name] = 0
+
+    st.session_state[key_name] += 1
+
+    return (
+        f"qlc-{prefix}-"
+        f"{st.session_state[key_name]}"
     )
 
 
@@ -626,36 +1307,23 @@ def hien_thi_header(
     mo_ta=None
 ):
 
-    tieu_de_an_toan = html.escape(
-        str(tieu_de)
+    key_header = _next_key(
+        "page-header"
     )
 
-    html_header = (
-        '<div class="qlc-header">'
+    with st.container(
+        key=key_header
+    ):
 
-        '<h1 class="qlc-header-title">'
-        f'{tieu_de_an_toan}'
-        '</h1>'
-    )
-
-    if mo_ta:
-
-        mo_ta_an_toan = html.escape(
-            str(mo_ta)
+        st.markdown(
+            f"# {tieu_de}"
         )
 
-        html_header += (
-            '<p class="qlc-header-description">'
-            f'{mo_ta_an_toan}'
-            '</p>'
-        )
+        if mo_ta:
 
-    html_header += '</div>'
-
-    st.markdown(
-        html_header,
-        unsafe_allow_html=True
-    )
+            st.caption(
+                mo_ta
+            )
 
 
 # ==========================================================
@@ -668,40 +1336,28 @@ def hien_thi_the(
     bieu_tuong=""
 ):
 
-    tieu_de_an_toan = html.escape(
-        str(tieu_de)
+    key_card = _next_key(
+        "stat-card"
     )
 
-    gia_tri_an_toan = html.escape(
-        str(gia_tri)
-    )
+    with st.container(
+        border=True,
+        key=key_card
+    ):
 
-    bieu_tuong_an_toan = html.escape(
-        str(bieu_tuong)
-    )
+        if bieu_tuong:
 
-    html_card = (
-        '<div class="qlc-stat-card">'
+            st.markdown(
+                f"### {bieu_tuong}"
+            )
 
-        '<div class="qlc-stat-icon">'
-        f'{bieu_tuong_an_toan}'
-        '</div>'
+        st.markdown(
+            f"#### {tieu_de}"
+        )
 
-        '<div class="qlc-stat-title">'
-        f'{tieu_de_an_toan}'
-        '</div>'
-
-        '<div class="qlc-stat-value">'
-        f'{gia_tri_an_toan}'
-        '</div>'
-
-        '</div>'
-    )
-
-    st.markdown(
-        html_card,
-        unsafe_allow_html=True
-    )
+        st.markdown(
+            f"## {gia_tri}"
+        )
 
 
 # ==========================================================
@@ -713,26 +1369,25 @@ def hien_thi_tieu_de_section(
     bieu_tuong=""
 ):
 
-    tieu_de_an_toan = html.escape(
-        str(tieu_de)
+    key_section = _next_key(
+        "section-title"
     )
 
-    bieu_tuong_an_toan = html.escape(
-        str(bieu_tuong)
-    )
+    with st.container(
+        key=key_section
+    ):
 
-    st.markdown(
-        (
-            '<div class="qlc-section-title">'
+        if bieu_tuong:
 
-            f'<span>{bieu_tuong_an_toan}</span>'
+            st.markdown(
+                f"### {bieu_tuong}  {tieu_de}"
+            )
 
-            f'<span>{tieu_de_an_toan}</span>'
+        else:
 
-            '</div>'
-        ),
-        unsafe_allow_html=True
-    )
+            st.markdown(
+                f"### {tieu_de}"
+            )
 
 
 # ==========================================================
@@ -744,30 +1399,22 @@ def hien_thi_info_card(
     noi_dung
 ):
 
-    tieu_de_an_toan = html.escape(
-        str(tieu_de)
+    key_card = _next_key(
+        "info-card"
     )
 
-    noi_dung_an_toan = html.escape(
-        str(noi_dung)
-    )
+    with st.container(
+        border=True,
+        key=key_card
+    ):
 
-    st.markdown(
-        (
-            '<div class="qlc-info-card">'
+        st.markdown(
+            f"#### {tieu_de}"
+        )
 
-            '<div class="qlc-info-title">'
-            f'{tieu_de_an_toan}'
-            '</div>'
-
-            '<div class="qlc-info-text">'
-            f'{noi_dung_an_toan}'
-            '</div>'
-
-            '</div>'
-        ),
-        unsafe_allow_html=True
-    )
+        st.write(
+            noi_dung
+        )
 
 
 # ==========================================================
@@ -776,17 +1423,15 @@ def hien_thi_info_card(
 
 def hien_thi_footer():
 
-    st.markdown(
-        """
-        <div class="qlc-footer">
-
-            🍚 Quản Lý Chấm Cơm
-
-            &nbsp;•&nbsp;
-
-            Hệ thống quản lý suất ăn
-
-        </div>
-        """,
-        unsafe_allow_html=True
+    key_footer = _next_key(
+        "footer"
     )
+
+    with st.container(
+        key=key_footer
+    ):
+
+        st.caption(
+            "🍚 Quản Lý Chấm Cơm  •  "
+            "Hệ thống quản lý suất ăn"
+        )

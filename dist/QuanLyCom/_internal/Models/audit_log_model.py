@@ -5,13 +5,20 @@ from Database.database import get_connection
 class AuditLogModel:
 
     @staticmethod
-    def ghi_log(
+    def them(
         hanh_dong,
         mo_ta=None,
         nguoi_thao_tac="Chính tôi"
     ):
+        """
+        Hàm thêm log.
+        Dùng cho các Controller mới.
+        """
+
         if not hanh_dong:
-            raise ValueError("Hành động không được để trống.")
+            raise ValueError(
+                "Hành động không được để trống."
+            )
 
         connection = get_connection()
 
@@ -27,7 +34,9 @@ class AuditLogModel:
                 )
                 VALUES (?, ?, ?, ?)
             """, (
-                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                datetime.now().strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                ),
                 hanh_dong,
                 mo_ta,
                 nguoi_thao_tac
@@ -41,7 +50,25 @@ class AuditLogModel:
             connection.close()
 
     @staticmethod
+    def ghi_log(
+        hanh_dong,
+        mo_ta=None,
+        nguoi_thao_tac="Chính tôi"
+    ):
+        """
+        Hàm cũ được giữ lại để tương thích
+        với các module hiện tại.
+        """
+
+        return AuditLogModel.them(
+            hanh_dong=hanh_dong,
+            mo_ta=mo_ta,
+            nguoi_thao_tac=nguoi_thao_tac
+        )
+
+    @staticmethod
     def lay_tat_ca():
+
         connection = get_connection()
 
         try:
@@ -65,6 +92,7 @@ class AuditLogModel:
 
     @staticmethod
     def lay_theo_hanh_dong(hanh_dong):
+
         connection = get_connection()
 
         try:
@@ -89,6 +117,7 @@ class AuditLogModel:
 
     @staticmethod
     def xoa_log(log_id):
+
         connection = get_connection()
 
         try:
