@@ -106,11 +106,11 @@ class BaoCaoController:
         weeks = []
 
         while monday <= end_date:
-            saturday = monday + timedelta(days=5)
+            sunday = monday + timedelta(days=6)
 
             weeks.append({
                 "tu_ngay": monday,
-                "den_ngay": saturday
+                "den_ngay": sunday
             })
 
             monday += timedelta(days=7)
@@ -814,7 +814,7 @@ class BaoCaoController:
 
             days = [
                 start + timedelta(days=i)
-                for i in range(6)
+                for i in range(7)
             ]
 
             end = days[-1]
@@ -1896,6 +1896,20 @@ class BaoCaoController:
             fgColor="F2F2F2"
         )
 
+        # Zebra row: hai màu trung tính, sang và có độ tương phản vừa đủ
+        # để mắt dễ bám theo từng dòng khi đối chiếu dữ liệu.
+        # Không dùng nhiều màu khác nhau giữa từng người vì sẽ làm bảng rối.
+        row_fills = [
+            PatternFill("solid", fgColor="F8FAFC"),  # White Smoke
+            PatternFill("solid", fgColor="EAF0F6"),  # Soft Slate Blue
+        ]
+
+        # Dòng còn nợ: đỏ nhạt, rõ nhưng không làm mất khả năng đọc.
+        debt_fill = PatternFill(
+            "solid",
+            fgColor="FDE2E1"
+        )
+
         center = Alignment(
             horizontal="center",
             vertical="center",
@@ -1925,11 +1939,41 @@ class BaoCaoController:
             "total_fill": total_fill,
             "checked_fill": checked_fill,
             "unchecked_fill": unchecked_fill,
+            "row_fills": row_fills,
+            "debt_fill": debt_fill,
             "center": center,
             "left": left,
             "right": right,
             "money_format": money_format
         }
+
+    @staticmethod
+    def _ap_dung_mau_nguoi(
+        sheet,
+        row,
+        start_col,
+        end_col,
+        ho_ten,
+        con_no,
+        styles
+    ):
+        """Tô màu một dòng theo từng người; còn nợ thì tô đỏ nhạt."""
+        try:
+            debt = float(con_no or 0) > 0.01
+        except (TypeError, ValueError):
+            debt = False
+
+        if debt:
+            fill = styles["debt_fill"]
+        else:
+            # Xen kẽ theo đúng từng dòng dữ liệu.
+            # Dùng số dòng thay vì tên người để khi nhìn ngang,
+            # mỗi dòng được tách bạch rõ ràng và không bị loè màu.
+            fills = styles["row_fills"]
+            fill = fills[(row - 1) % len(fills)]
+
+        for col in range(start_col, end_col + 1):
+            sheet.cell(row, col).fill = fill
 
     @staticmethod
     def _set_excel_title(
@@ -2175,6 +2219,16 @@ class BaoCaoController:
                         cell.alignment = (
                             styles["left"]
                         )
+
+                BaoCaoController._ap_dung_mau_nguoi(
+                    sheet,
+                    current_row,
+                    1,
+                    len(headers),
+                    row[1],
+                    0,
+                    styles
+                )
 
                 current_row += 1
 
@@ -2468,6 +2522,16 @@ class BaoCaoController:
                         styles["left"]
                     )
 
+            BaoCaoController._ap_dung_mau_nguoi(
+                sheet,
+                current_row,
+                1,
+                len(headers),
+                ho_ten,
+                0,
+                styles
+            )
+
             current_row += 1
 
         BaoCaoController._set_excel_widths(
@@ -2679,6 +2743,7 @@ class BaoCaoController:
             "Thứ 5",
             "Thứ 6",
             "Thứ 7",
+            "Chủ nhật",
             "Tổng bữa",
             "Đơn giá",
             "Thành tiền",
@@ -2734,7 +2799,7 @@ class BaoCaoController:
 
         week_days = [
             week_start + timedelta(days=i)
-            for i in range(6)
+            for i in range(7)
         ]
 
         date_row = 4
@@ -2799,11 +2864,11 @@ class BaoCaoController:
             1,
             2,
             3,
-            10,
             11,
             12,
             13,
-            14
+            14,
+            15
         ]:
             cell = sheet.cell(
                 date_row,
@@ -2881,10 +2946,10 @@ class BaoCaoController:
                     ]
 
                 if col in [
-                    11,
                     12,
                     13,
-                    14
+                    14,
+                    15
                 ]:
                     cell.number_format = (
                         styles["money_format"]
@@ -2900,20 +2965,29 @@ class BaoCaoController:
                     6,
                     7,
                     8,
-                    9
+                    9,
+                    10
                 ]:
                     cell.font = styles[
                         "font_bold"
                     ]
 
-                    if value == "☑":
-                        cell.fill = styles[
-                            "checked_fill"
+                    # Không dùng màu riêng cho từng ô ngày;
+                    # màu của cả dòng đại diện cho người đó.
+                    if value in ["☑", "☐"]:
+                        cell.font = styles[
+                            "font_bold"
                         ]
-                    else:
-                        cell.fill = styles[
-                            "unchecked_fill"
-                        ]
+
+            BaoCaoController._ap_dung_mau_nguoi(
+                sheet,
+                excel_row,
+                1,
+                len(headers),
+                item["HoTen"],
+                item["ConNo"],
+                styles
+            )
 
             sheet.row_dimensions[
                 excel_row
@@ -2967,32 +3041,32 @@ class BaoCaoController:
 
         sheet.cell(
             total_row,
-            10,
+            11,
             total_meals
         )
 
         sheet.cell(
             total_row,
-            12,
+            13,
             total_due
         )
 
         sheet.cell(
             total_row,
-            13,
+            14,
             total_paid
         )
 
         sheet.cell(
             total_row,
-            14,
+            15,
             total_debt
         )
 
         for col in [
-            12,
             13,
-            14
+            14,
+            15
         ]:
             sheet.cell(
                 total_row,
@@ -3020,6 +3094,8 @@ class BaoCaoController:
                 14,
                 14,
                 14,
+                14,
+                14,
                 12,
                 16,
                 18,
@@ -3032,7 +3108,7 @@ class BaoCaoController:
 
         if total_row > 6:
             sheet.auto_filter.ref = (
-                f"A5:N{total_row - 1}"
+                f"A5:O{total_row - 1}"
             )
 
         sheet.print_title_rows = "1:5"
@@ -3424,7 +3500,8 @@ class BaoCaoController:
                     6,
                     7,
                     8,
-                    9
+                    9,
+                    10
                 ]:
                     cell.number_format = (
                         styles["money_format"]
@@ -3433,6 +3510,16 @@ class BaoCaoController:
                     cell.alignment = (
                         styles["right"]
                     )
+
+            BaoCaoController._ap_dung_mau_nguoi(
+                sheet,
+                row,
+                1,
+                len(headers),
+                item["HoTen"],
+                item["ConNo"],
+                styles
+            )
 
         total_row = (
             len(du_lieu)
@@ -3583,6 +3670,7 @@ class BaoCaoController:
                 "Thứ 5",
                 "Thứ 6",
                 "Thứ 7",
+                "Chủ nhật",
                 "Tổng bữa",
                 "Đơn giá",
                 "Thành tiền",
@@ -3629,7 +3717,7 @@ class BaoCaoController:
 
             week_days = [
                 start + timedelta(days=i)
-                for i in range(6)
+                for i in range(7)
             ]
 
             for col, header in enumerate(
@@ -3691,11 +3779,11 @@ class BaoCaoController:
                 1,
                 2,
                 3,
-                10,
                 11,
                 12,
                 13,
-                14
+                14,
+                15
             ]:
                 sheet.cell(
                     4,
@@ -3766,10 +3854,10 @@ class BaoCaoController:
                         )
 
                     if col in [
-                        11,
                         12,
                         13,
-                        14
+                        14,
+                        15
                     ]:
                         cell.number_format = (
                             styles["money_format"]
@@ -3785,20 +3873,22 @@ class BaoCaoController:
                         6,
                         7,
                         8,
-                        9
+                        9,
+                        10
                     ]:
                         cell.font = styles[
                             "font_bold"
                         ]
 
-                        if value == "☑":
-                            cell.fill = styles[
-                                "checked_fill"
-                            ]
-                        else:
-                            cell.fill = styles[
-                                "unchecked_fill"
-                            ]
+            BaoCaoController._ap_dung_mau_nguoi(
+                sheet,
+                excel_row,
+                1,
+                len(headers),
+                item["HoTen"],
+                item["ConNo"],
+                styles
+            )
 
             total_row = (
                 data_start_row
@@ -3848,32 +3938,32 @@ class BaoCaoController:
 
             sheet.cell(
                 total_row,
-                10,
+                11,
                 total_meals
             )
 
             sheet.cell(
                 total_row,
-                12,
+                13,
                 total_due
             )
 
             sheet.cell(
                 total_row,
-                13,
+                14,
                 total_paid
             )
 
             sheet.cell(
                 total_row,
-                14,
+                15,
                 total_debt
             )
 
             for col in [
-                12,
                 13,
-                14
+                14,
+                15
             ]:
                 sheet.cell(
                     total_row,
@@ -3901,6 +3991,7 @@ class BaoCaoController:
                     14,
                     14,
                     14,
+                    14,
                     12,
                     16,
                     18,
@@ -3913,7 +4004,7 @@ class BaoCaoController:
 
             if total_row > 6:
                 sheet.auto_filter.ref = (
-                    f"A5:N{total_row - 1}"
+                    f"A5:O{total_row - 1}"
                 )
 
             sheet.print_title_rows = "1:5"
@@ -4118,6 +4209,16 @@ class BaoCaoController:
                         cell.alignment = (
                             styles["right"]
                         )
+
+            BaoCaoController._ap_dung_mau_nguoi(
+                sheet,
+                excel_row,
+                1,
+                len(headers),
+                item["HoTen"],
+                item["ConNo"],
+                styles
+            )
 
             total_row = (
                 data_start_row
