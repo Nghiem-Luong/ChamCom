@@ -18,7 +18,49 @@
   <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/launcher.py" type="text/plain"><tt>launcher.py</tt></a>
 <span class="moduletype">Script</span>  <div class="import">
 imports:
-    <a href="#_collections_abc">_collections_abc</a>
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Controllers.bo_phan_controller">Controllers.bo_phan_controller</a>
+ &#8226;   <a href="#Controllers.chi_tiet_an_controller">Controllers.chi_tiet_an_controller</a>
+ &#8226;   <a href="#Controllers.chot_suat_an_controller">Controllers.chot_suat_an_controller</a>
+ &#8226;   <a href="#Controllers.he_thong_controller">Controllers.he_thong_controller</a>
+ &#8226;   <a href="#Controllers.ngay_an_controller">Controllers.ngay_an_controller</a>
+ &#8226;   <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#Controllers.suat_an_phat_sinh_controller">Controllers.suat_an_phat_sinh_controller</a>
+ &#8226;   <a href="#Controllers.thong_ke_controller">Controllers.thong_ke_controller</a>
+ &#8226;   <a href="#Controllers.tra_cuu_controller">Controllers.tra_cuu_controller</a>
+ &#8226;   <a href="#Database">Database</a>
+ &#8226;   <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Database.database_initializer">Database.database_initializer</a>
+ &#8226;   <a href="#Models">Models</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.bo_phan_model">Models.bo_phan_model</a>
+ &#8226;   <a href="#Models.chi_tiet_an_model">Models.chi_tiet_an_model</a>
+ &#8226;   <a href="#Models.chot_suat_an_model">Models.chot_suat_an_model</a>
+ &#8226;   <a href="#Models.giao_dich_model">Models.giao_dich_model</a>
+ &#8226;   <a href="#Models.ngay_an_model">Models.ngay_an_model</a>
+ &#8226;   <a href="#Models.nguoi_an_model">Models.nguoi_an_model</a>
+ &#8226;   <a href="#Models.suat_an_phat_sinh_model">Models.suat_an_phat_sinh_model</a>
+ &#8226;   <a href="#Models.tra_cuu_model">Models.tra_cuu_model</a>
+ &#8226;   <a href="#Utils">Utils</a>
+ &#8226;   <a href="#Utils.backup">Utils.backup</a>
+ &#8226;   <a href="#Utils.language">Utils.language</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Utils.notification">Utils.notification</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.bao_cao_view">Views.bao_cao_view</a>
+ &#8226;   <a href="#Views.bo_phan_view">Views.bo_phan_view</a>
+ &#8226;   <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.he_thong_view">Views.he_thong_view</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#Views.menu_view">Views.menu_view</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#Views.tra_cuu_view">Views.tra_cuu_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#_collections_abc">_collections_abc</a>
  &#8226;   <a href="#_weakrefset">_weakrefset</a>
  &#8226;   <a href="#abc">abc</a>
  &#8226;   <a href="#codecs">codecs</a>
@@ -3710,7 +3752,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>'org.python'</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#copy">copy</a>
+    <a href="#pickle">pickle</a>
  &#8226;   <a href="#xml.sax">xml.sax</a>
 
   </div>
@@ -4362,11 +4404,327 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="Controllers"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/__init__.py" type="text/plain"><tt>Controllers</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imported by:
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Controllers.bo_phan_controller">Controllers.bo_phan_controller</a>
+ &#8226;   <a href="#Controllers.chi_tiet_an_controller">Controllers.chi_tiet_an_controller</a>
+ &#8226;   <a href="#Controllers.chot_suat_an_controller">Controllers.chot_suat_an_controller</a>
+ &#8226;   <a href="#Controllers.he_thong_controller">Controllers.he_thong_controller</a>
+ &#8226;   <a href="#Controllers.ngay_an_controller">Controllers.ngay_an_controller</a>
+ &#8226;   <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#Controllers.suat_an_phat_sinh_controller">Controllers.suat_an_phat_sinh_controller</a>
+ &#8226;   <a href="#Controllers.thong_ke_controller">Controllers.thong_ke_controller</a>
+ &#8226;   <a href="#Controllers.tra_cuu_controller">Controllers.tra_cuu_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.bao_cao_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/bao_cao_controller.py" type="text/plain"><tt>Controllers.bao_cao_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#calendar">calendar</a>
+ &#8226;   <a href="#copy">copy</a>
+ &#8226;   <a href="#csv">csv</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#openpyxl">openpyxl</a>
+ &#8226;   <a href="#openpyxl.styles">openpyxl.styles</a>
+ &#8226;   <a href="#openpyxl.utils">openpyxl.utils</a>
+ &#8226;   <a href="#pathlib">pathlib</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.bao_cao_view">Views.bao_cao_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.bo_phan_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/bo_phan_controller.py" type="text/plain"><tt>Controllers.bo_phan_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Models.bo_phan_model">Models.bo_phan_model</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.bo_phan_view">Views.bo_phan_view</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.chi_tiet_an_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/chi_tiet_an_controller.py" type="text/plain"><tt>Controllers.chi_tiet_an_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.chi_tiet_an_model">Models.chi_tiet_an_model</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.chot_suat_an_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/chot_suat_an_controller.py" type="text/plain"><tt>Controllers.chot_suat_an_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Models.chot_suat_an_model">Models.chot_suat_an_model</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.he_thong_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/he_thong_controller.py" type="text/plain"><tt>Controllers.he_thong_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#pathlib">pathlib</a>
+ &#8226;   <a href="#shutil">shutil</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.ngay_an_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/ngay_an_controller.py" type="text/plain"><tt>Controllers.ngay_an_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.ngay_an_model">Models.ngay_an_model</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.nguoi_an_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/nguoi_an_controller.py" type="text/plain"><tt>Controllers.nguoi_an_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.nguoi_an_model">Models.nguoi_an_model</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.bo_phan_view">Views.bo_phan_view</a>
+ &#8226;   <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.nop_tien_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/nop_tien_controller.py" type="text/plain"><tt>Controllers.nop_tien_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.chi_tiet_an_model">Models.chi_tiet_an_model</a>
+ &#8226;   <a href="#Models.giao_dich_model">Models.giao_dich_model</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#pandas">pandas</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.suat_an_phat_sinh_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/suat_an_phat_sinh_controller.py" type="text/plain"><tt>Controllers.suat_an_phat_sinh_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.suat_an_phat_sinh_model">Models.suat_an_phat_sinh_model</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.thong_ke_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/thong_ke_controller.py" type="text/plain"><tt>Controllers.thong_ke_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#datetime">datetime</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Controllers.tra_cuu_controller"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Controllers/tra_cuu_controller.py" type="text/plain"><tt>Controllers.tra_cuu_controller</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers">Controllers</a>
+ &#8226;   <a href="#Models.tra_cuu_model">Models.tra_cuu_model</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#pandas">pandas</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.tra_cuu_view">Views.tra_cuu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="Cython"></a>
   <a target="code" href="" type="text/plain"><tt>Cython</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#numpy.random.tests.test_extending">numpy.random.tests.test_extending</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Database"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Database/__init__.py" type="text/plain"><tt>Database</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imported by:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Database.database_initializer">Database.database_initializer</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Database.database"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Database/database.py" type="text/plain"><tt>Database.database</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database">Database</a>
+ &#8226;   <a href="#pathlib">pathlib</a>
+ &#8226;   <a href="#sqlite3">sqlite3</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Controllers.he_thong_controller">Controllers.he_thong_controller</a>
+ &#8226;   <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#Controllers.thong_ke_controller">Controllers.thong_ke_controller</a>
+ &#8226;   <a href="#Database.database_initializer">Database.database_initializer</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.bo_phan_model">Models.bo_phan_model</a>
+ &#8226;   <a href="#Models.chi_tiet_an_model">Models.chi_tiet_an_model</a>
+ &#8226;   <a href="#Models.chot_suat_an_model">Models.chot_suat_an_model</a>
+ &#8226;   <a href="#Models.giao_dich_model">Models.giao_dich_model</a>
+ &#8226;   <a href="#Models.ngay_an_model">Models.ngay_an_model</a>
+ &#8226;   <a href="#Models.nguoi_an_model">Models.nguoi_an_model</a>
+ &#8226;   <a href="#Models.suat_an_phat_sinh_model">Models.suat_an_phat_sinh_model</a>
+ &#8226;   <a href="#Models.tra_cuu_model">Models.tra_cuu_model</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Database.database_initializer"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Database/database_initializer.py" type="text/plain"><tt>Database.database_initializer</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database">Database</a>
+ &#8226;   <a href="#Database.database">Database.database</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
 
   </div>
 
@@ -4390,6 +4748,202 @@ imported by:
 imported by:
     <a href="#pandas.io.formats.printing">pandas.io.formats.printing</a>
  &#8226;   <a href="#pydeck.io.html">pydeck.io.html</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/__init__.py" type="text/plain"><tt>Models</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imported by:
+    <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.bo_phan_model">Models.bo_phan_model</a>
+ &#8226;   <a href="#Models.chi_tiet_an_model">Models.chi_tiet_an_model</a>
+ &#8226;   <a href="#Models.chot_suat_an_model">Models.chot_suat_an_model</a>
+ &#8226;   <a href="#Models.giao_dich_model">Models.giao_dich_model</a>
+ &#8226;   <a href="#Models.ngay_an_model">Models.ngay_an_model</a>
+ &#8226;   <a href="#Models.nguoi_an_model">Models.nguoi_an_model</a>
+ &#8226;   <a href="#Models.suat_an_phat_sinh_model">Models.suat_an_phat_sinh_model</a>
+ &#8226;   <a href="#Models.tra_cuu_model">Models.tra_cuu_model</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.audit_log_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/audit_log_model.py" type="text/plain"><tt>Models.audit_log_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+ &#8226;   <a href="#datetime">datetime</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.chi_tiet_an_controller">Controllers.chi_tiet_an_controller</a>
+ &#8226;   <a href="#Controllers.he_thong_controller">Controllers.he_thong_controller</a>
+ &#8226;   <a href="#Controllers.ngay_an_controller">Controllers.ngay_an_controller</a>
+ &#8226;   <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#Controllers.suat_an_phat_sinh_controller">Controllers.suat_an_phat_sinh_controller</a>
+ &#8226;   <a href="#Views.he_thong_view">Views.he_thong_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.bo_phan_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/bo_phan_model.py" type="text/plain"><tt>Models.bo_phan_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+ &#8226;   <a href="#datetime">datetime</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.bo_phan_controller">Controllers.bo_phan_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.chi_tiet_an_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/chi_tiet_an_model.py" type="text/plain"><tt>Models.chi_tiet_an_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.chi_tiet_an_controller">Controllers.chi_tiet_an_controller</a>
+ &#8226;   <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.chot_suat_an_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/chot_suat_an_model.py" type="text/plain"><tt>Models.chot_suat_an_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+ &#8226;   <a href="#datetime">datetime</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.chot_suat_an_controller">Controllers.chot_suat_an_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.giao_dich_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/giao_dich_model.py" type="text/plain"><tt>Models.giao_dich_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.ngay_an_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/ngay_an_model.py" type="text/plain"><tt>Models.ngay_an_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+ &#8226;   <a href="#datetime">datetime</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.ngay_an_controller">Controllers.ngay_an_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.nguoi_an_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/nguoi_an_model.py" type="text/plain"><tt>Models.nguoi_an_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+ &#8226;   <a href="#datetime">datetime</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.suat_an_phat_sinh_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/suat_an_phat_sinh_model.py" type="text/plain"><tt>Models.suat_an_phat_sinh_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+ &#8226;   <a href="#datetime">datetime</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.suat_an_phat_sinh_controller">Controllers.suat_an_phat_sinh_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Models.tra_cuu_model"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Models/tra_cuu_model.py" type="text/plain"><tt>Models.tra_cuu_model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Models">Models</a>
+ &#8226;   <a href="#datetime">datetime</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Controllers.tra_cuu_controller">Controllers.tra_cuu_controller</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
 
   </div>
 
@@ -7313,6 +7867,374 @@ imported by:
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#pytz.lazy">pytz.lazy</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Utils"></a>
+  <a target="code" href="-" type="text/plain"><tt>Utils</tt></a>
+<span class="moduletype">NamespacePackage</span>  <div class="import">
+imported by:
+    <a href="#Utils.backup">Utils.backup</a>
+ &#8226;   <a href="#Utils.language">Utils.language</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Utils.notification">Utils.notification</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Utils.backup"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Utils/backup.py" type="text/plain"><tt>Utils.backup</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Utils">Utils</a>
+ &#8226;   <a href="#config">config</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#shutil">shutil</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Utils.language"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Utils/language.py" type="text/plain"><tt>Utils.language</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Utils">Utils</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.menu_view">Views.menu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Utils.nop_tien_excel"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Utils/nop_tien_excel.py" type="text/plain"><tt>Utils.nop_tien_excel</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Utils">Utils</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#openpyxl">openpyxl</a>
+ &#8226;   <a href="#openpyxl.styles">openpyxl.styles</a>
+ &#8226;   <a href="#openpyxl.utils">openpyxl.utils</a>
+ &#8226;   <a href="#openpyxl.worksheet.page">openpyxl.worksheet.page</a>
+ &#8226;   <a href="#pandas">pandas</a>
+ &#8226;   <a href="#pathlib">pathlib</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Utils.notification"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Utils/notification.py" type="text/plain"><tt>Utils.notification</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Utils">Utils</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.bo_phan_view">Views.bo_phan_view</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/__init__.py" type="text/plain"><tt>Views</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imported by:
+    <a href="#Views.bao_cao_view">Views.bao_cao_view</a>
+ &#8226;   <a href="#Views.bo_phan_view">Views.bo_phan_view</a>
+ &#8226;   <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.he_thong_view">Views.he_thong_view</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#Views.menu_view">Views.menu_view</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#Views.tra_cuu_view">Views.tra_cuu_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.bao_cao_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/bao_cao_view.py" type="text/plain"><tt>Views.bao_cao_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.bo_phan_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/bo_phan_view.py" type="text/plain"><tt>Views.bo_phan_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers.bo_phan_controller">Controllers.bo_phan_controller</a>
+ &#8226;   <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#Utils.notification">Utils.notification</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#pandas">pandas</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.cham_com_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/cham_com_view.py" type="text/plain"><tt>Views.cham_com_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers.chi_tiet_an_controller">Controllers.chi_tiet_an_controller</a>
+ &#8226;   <a href="#Controllers.chot_suat_an_controller">Controllers.chot_suat_an_controller</a>
+ &#8226;   <a href="#Controllers.ngay_an_controller">Controllers.ngay_an_controller</a>
+ &#8226;   <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#Controllers.suat_an_phat_sinh_controller">Controllers.suat_an_phat_sinh_controller</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#pandas">pandas</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.he_thong_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/he_thong_view.py" type="text/plain"><tt>Views.he_thong_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.tra_cuu_view">Views.tra_cuu_view</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#shutil">shutil</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.layout"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/layout.py" type="text/plain"><tt>Views.layout</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Views">Views</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.bao_cao_view">Views.bao_cao_view</a>
+ &#8226;   <a href="#Views.bo_phan_view">Views.bo_phan_view</a>
+ &#8226;   <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.menu_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/menu_view.py" type="text/plain"><tt>Views.menu_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Utils.language">Utils.language</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.nguoi_an_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/nguoi_an_view.py" type="text/plain"><tt>Views.nguoi_an_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers.bo_phan_controller">Controllers.bo_phan_controller</a>
+ &#8226;   <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#Utils.notification">Utils.notification</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#math">math</a>
+ &#8226;   <a href="#pandas">pandas</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.nop_tien_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/nop_tien_view.py" type="text/plain"><tt>Views.nop_tien_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers.bo_phan_controller">Controllers.bo_phan_controller</a>
+ &#8226;   <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#calendar">calendar</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#pandas">pandas</a>
+ &#8226;   <a href="#pathlib">pathlib</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.thong_ke_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/thong_ke_view.py" type="text/plain"><tt>Views.thong_ke_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers.thong_ke_controller">Controllers.thong_ke_controller</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#calendar">calendar</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#io">io</a>
+ &#8226;   <a href="#openpyxl">openpyxl</a>
+ &#8226;   <a href="#openpyxl.styles">openpyxl.styles</a>
+ &#8226;   <a href="#openpyxl.utils">openpyxl.utils</a>
+ &#8226;   <a href="#pandas">pandas</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.tra_cuu_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/tra_cuu_view.py" type="text/plain"><tt>Views.tra_cuu_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers.tra_cuu_controller">Controllers.tra_cuu_controller</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Views.he_thong_view">Views.he_thong_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="Views.trang_chu_view"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/Views/trang_chu_view.py" type="text/plain"><tt>Views.trang_chu_view</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#Controllers.chi_tiet_an_controller">Controllers.chi_tiet_an_controller</a>
+ &#8226;   <a href="#Controllers.ngay_an_controller">Controllers.ngay_an_controller</a>
+ &#8226;   <a href="#Controllers.nguoi_an_controller">Controllers.nguoi_an_controller</a>
+ &#8226;   <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#Controllers.suat_an_phat_sinh_controller">Controllers.suat_an_phat_sinh_controller</a>
+ &#8226;   <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#Views">Views</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#Views.menu_view">Views.menu_view</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#streamlit">streamlit</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#launcher.py">launcher.py</a>
 
   </div>
 
@@ -15198,7 +16120,10 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#PIL.PdfParser">PIL.PdfParser</a>
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#PIL.PdfParser">PIL.PdfParser</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
  &#8226;   <a href="#_strptime">_strptime</a>
  &#8226;   <a href="#dateutil.parser._parser">dateutil.parser._parser</a>
  &#8226;   <a href="#dateutil.parser.isoparser">dateutil.parser.isoparser</a>
@@ -17390,6 +18315,22 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="config"></a>
+  <a target="code" href="///D:/PyCharm/DuAn/QuanLyCom/config.py" type="text/plain"><tt>config</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pathlib">pathlib</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#Utils.backup">Utils.backup</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="configparser"></a>
   <a target="code" href="///C:/Users/PC/AppData/Local/Programs/Python/Python310/lib/configparser.py" type="text/plain"><tt>configparser</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -17663,15 +18604,16 @@ imported by:
   <a target="code" href="///C:/Users/PC/AppData/Local/Programs/Python/Python310/lib/copy.py" type="text/plain"><tt>copy</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#'org.python'">'org.python'</a>
- &#8226;   <a href="#copyreg">copyreg</a>
+    <a href="#copyreg">copyreg</a>
+ &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#weakref">weakref</a>
 
   </div>
   <div class="import">
 imported by:
-    <a href="#PIL.GifImagePlugin">PIL.GifImagePlugin</a>
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#PIL.GifImagePlugin">PIL.GifImagePlugin</a>
  &#8226;   <a href="#PyInstaller.utils.hooks">PyInstaller.utils.hooks</a>
  &#8226;   <a href="#_sre">_sre</a>
  &#8226;   <a href="#altair.utils.core">altair.utils.core</a>
@@ -17821,7 +18763,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#altair.datasets._cache">altair.datasets._cache</a>
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#altair.datasets._cache">altair.datasets._cache</a>
  &#8226;   <a href="#altair.datasets._readimpl">altair.datasets._readimpl</a>
  &#8226;   <a href="#importlib.metadata">importlib.metadata</a>
  &#8226;   <a href="#pandas._testing.contexts">pandas._testing.contexts</a>
@@ -18324,7 +19267,27 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#PIL._imagingcms">PIL._imagingcms</a>
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Controllers.he_thong_controller">Controllers.he_thong_controller</a>
+ &#8226;   <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#Controllers.thong_ke_controller">Controllers.thong_ke_controller</a>
+ &#8226;   <a href="#Controllers.tra_cuu_controller">Controllers.tra_cuu_controller</a>
+ &#8226;   <a href="#Models.audit_log_model">Models.audit_log_model</a>
+ &#8226;   <a href="#Models.bo_phan_model">Models.bo_phan_model</a>
+ &#8226;   <a href="#Models.chot_suat_an_model">Models.chot_suat_an_model</a>
+ &#8226;   <a href="#Models.ngay_an_model">Models.ngay_an_model</a>
+ &#8226;   <a href="#Models.nguoi_an_model">Models.nguoi_an_model</a>
+ &#8226;   <a href="#Models.suat_an_phat_sinh_model">Models.suat_an_phat_sinh_model</a>
+ &#8226;   <a href="#Models.tra_cuu_model">Models.tra_cuu_model</a>
+ &#8226;   <a href="#PIL._imagingcms">PIL._imagingcms</a>
+ &#8226;   <a href="#Utils.backup">Utils.backup</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Views.bao_cao_view">Views.bao_cao_view</a>
+ &#8226;   <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#Views.tra_cuu_view">Views.tra_cuu_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
  &#8226;   <a href="#_strptime">_strptime</a>
  &#8226;   <a href="#altair.expr.core">altair.expr.core</a>
  &#8226;   <a href="#altair.utils.schemapi">altair.utils.schemapi</a>
@@ -29227,6 +30190,7 @@ imported by:
  &#8226;   <a href="#PIL.WebPImagePlugin">PIL.WebPImagePlugin</a>
  &#8226;   <a href="#PyInstaller.building.utils">PyInstaller.building.utils</a>
  &#8226;   <a href="#PyInstaller.utils.misc">PyInstaller.utils.misc</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
  &#8226;   <a href="#_compression">_compression</a>
  &#8226;   <a href="#altair.datasets._cache">altair.datasets._cache</a>
  &#8226;   <a href="#altair.datasets._readimpl">altair.datasets._readimpl</a>
@@ -31589,6 +32553,7 @@ imported by:
  &#8226;   <a href="#PIL.PpmImagePlugin">PIL.PpmImagePlugin</a>
  &#8226;   <a href="#PIL.TiffImagePlugin">PIL.TiffImagePlugin</a>
  &#8226;   <a href="#PyInstaller.utils.osx">PyInstaller.utils.osx</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
  &#8226;   <a href="#_pydecimal">_pydecimal</a>
  &#8226;   <a href="#altair.utils.schemapi">altair.utils.schemapi</a>
  &#8226;   <a href="#annotated_types">annotated_types</a>
@@ -51428,7 +52393,10 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#launcher.py">launcher.py</a>
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
  &#8226;   <a href="#openpyxl._constants">openpyxl._constants</a>
  &#8226;   <a href="#openpyxl.cell">openpyxl.cell</a>
  &#8226;   <a href="#openpyxl.cell._writer">openpyxl.cell._writer</a>
@@ -54586,7 +55554,10 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#launcher.py">launcher.py</a>
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
  &#8226;   <a href="#openpyxl.cell.cell">openpyxl.cell.cell</a>
  &#8226;   <a href="#openpyxl.cell.read_only">openpyxl.cell.read_only</a>
  &#8226;   <a href="#openpyxl.chartsheet.properties">openpyxl.chartsheet.properties</a>
@@ -55021,7 +55992,10 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#launcher.py">launcher.py</a>
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
  &#8226;   <a href="#openpyxl.cell.cell">openpyxl.cell.cell</a>
  &#8226;   <a href="#openpyxl.cell.read_only">openpyxl.cell.read_only</a>
  &#8226;   <a href="#openpyxl.chart.reference">openpyxl.chart.reference</a>
@@ -56155,7 +57129,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#launcher.py">launcher.py</a>
+    <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
  &#8226;   <a href="#openpyxl.chart.print_settings">openpyxl.chart.print_settings</a>
  &#8226;   <a href="#openpyxl.chartsheet.chartsheet">openpyxl.chartsheet.chartsheet</a>
  &#8226;   <a href="#openpyxl.chartsheet.custom">openpyxl.chartsheet.custom</a>
@@ -56917,7 +57892,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>org</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#pickle">pickle</a>
+    <a href="#copy">copy</a>
 
   </div>
 
@@ -56980,6 +57955,7 @@ imported by:
  &#8226;   <a href="#PyInstaller.utils.hooks">PyInstaller.utils.hooks</a>
  &#8226;   <a href="#PyInstaller.utils.misc">PyInstaller.utils.misc</a>
  &#8226;   <a href="#PyInstaller.utils.osx">PyInstaller.utils.osx</a>
+ &#8226;   <a href="#Views.he_thong_view">Views.he_thong_view</a>
  &#8226;   <a href="#_bootsubprocess">_bootsubprocess</a>
  &#8226;   <a href="#_distutils_hack">_distutils_hack</a>
  &#8226;   <a href="#_osx_support">_osx_support</a>
@@ -58035,7 +59011,15 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#altair.datasets._data">altair.datasets._data</a>
+    <a href="#Controllers.nop_tien_controller">Controllers.nop_tien_controller</a>
+ &#8226;   <a href="#Controllers.tra_cuu_controller">Controllers.tra_cuu_controller</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Views.bo_phan_view">Views.bo_phan_view</a>
+ &#8226;   <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#altair.datasets._data">altair.datasets._data</a>
  &#8226;   <a href="#altair.datasets._loader">altair.datasets._loader</a>
  &#8226;   <a href="#altair.datasets._reader">altair.datasets._reader</a>
  &#8226;   <a href="#altair.datasets._readimpl">altair.datasets._readimpl</a>
@@ -99968,12 +100952,17 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#PyInstaller.building.utils">PyInstaller.building.utils</a>
+    <a href="#Controllers.bao_cao_controller">Controllers.bao_cao_controller</a>
+ &#8226;   <a href="#Controllers.he_thong_controller">Controllers.he_thong_controller</a>
+ &#8226;   <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#PyInstaller.building.utils">PyInstaller.building.utils</a>
  &#8226;   <a href="#PyInstaller.isolated._parent">PyInstaller.isolated._parent</a>
  &#8226;   <a href="#PyInstaller.utils.hooks">PyInstaller.utils.hooks</a>
  &#8226;   <a href="#PyInstaller.utils.hooks.conda">PyInstaller.utils.hooks.conda</a>
  &#8226;   <a href="#PyInstaller.utils.misc">PyInstaller.utils.misc</a>
  &#8226;   <a href="#PyInstaller.utils.osx">PyInstaller.utils.osx</a>
+ &#8226;   <a href="#Utils.nop_tien_excel">Utils.nop_tien_excel</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
  &#8226;   <a href="#altair.datasets._cache">altair.datasets._cache</a>
  &#8226;   <a href="#altair.datasets._reader">altair.datasets._reader</a>
  &#8226;   <a href="#altair.datasets._readimpl">altair.datasets._readimpl</a>
@@ -99984,6 +100973,7 @@ imported by:
  &#8226;   <a href="#altair.vegalite.v6.display">altair.vegalite.v6.display</a>
  &#8226;   <a href="#anyio._core._fileio">anyio._core._fileio</a>
  &#8226;   <a href="#click._termui_impl">click._termui_impl</a>
+ &#8226;   <a href="#config">config</a>
  &#8226;   <a href="#httpx._multipart">httpx._multipart</a>
  &#8226;   <a href="#importlib._common">importlib._common</a>
  &#8226;   <a href="#importlib.metadata">importlib.metadata</a>
@@ -100209,14 +101199,14 @@ imported by:
   <a target="code" href="///C:/Users/PC/AppData/Local/Programs/Python/Python310/lib/pickle.py" type="text/plain"><tt>pickle</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#_compat_pickle">_compat_pickle</a>
+    <a href="#'org.python'">'org.python'</a>
+ &#8226;   <a href="#_compat_pickle">_compat_pickle</a>
  &#8226;   <a href="#_pickle">_pickle</a>
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#itertools">itertools</a>
- &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#struct">struct</a>
@@ -113875,11 +114865,14 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#PIL.EpsImagePlugin">PIL.EpsImagePlugin</a>
+    <a href="#Controllers.he_thong_controller">Controllers.he_thong_controller</a>
+ &#8226;   <a href="#PIL.EpsImagePlugin">PIL.EpsImagePlugin</a>
  &#8226;   <a href="#PIL.ImageShow">PIL.ImageShow</a>
  &#8226;   <a href="#PyInstaller.building.utils">PyInstaller.building.utils</a>
  &#8226;   <a href="#PyInstaller.compat">PyInstaller.compat</a>
  &#8226;   <a href="#PyInstaller.utils.osx">PyInstaller.utils.osx</a>
+ &#8226;   <a href="#Utils.backup">Utils.backup</a>
+ &#8226;   <a href="#Views.he_thong_view">Views.he_thong_view</a>
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#click._termui_impl">click._termui_impl</a>
  &#8226;   <a href="#click.formatting">click.formatting</a>
@@ -114375,7 +115368,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#launcher.py">launcher.py</a>
+    <a href="#Database.database">Database.database</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
  &#8226;   <a href="#pandas.io.sql">pandas.io.sql</a>
  &#8226;   <a href="#pandas.tests.io.test_sql">pandas.tests.io.test_sql</a>
  &#8226;   <a href="#sqlite3">sqlite3</a>
@@ -115575,7 +116569,19 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#launcher.py">launcher.py</a>
+    <a href="#Utils.notification">Utils.notification</a>
+ &#8226;   <a href="#Views.bao_cao_view">Views.bao_cao_view</a>
+ &#8226;   <a href="#Views.bo_phan_view">Views.bo_phan_view</a>
+ &#8226;   <a href="#Views.cham_com_view">Views.cham_com_view</a>
+ &#8226;   <a href="#Views.he_thong_view">Views.he_thong_view</a>
+ &#8226;   <a href="#Views.layout">Views.layout</a>
+ &#8226;   <a href="#Views.menu_view">Views.menu_view</a>
+ &#8226;   <a href="#Views.nguoi_an_view">Views.nguoi_an_view</a>
+ &#8226;   <a href="#Views.nop_tien_view">Views.nop_tien_view</a>
+ &#8226;   <a href="#Views.thong_ke_view">Views.thong_ke_view</a>
+ &#8226;   <a href="#Views.tra_cuu_view">Views.tra_cuu_view</a>
+ &#8226;   <a href="#Views.trang_chu_view">Views.trang_chu_view</a>
+ &#8226;   <a href="#launcher.py">launcher.py</a>
  &#8226;   <a href="#streamlit">streamlit</a>
  &#8226;   <a href="#streamlit.__main__">streamlit.__main__</a>
  &#8226;   <a href="#streamlit.auth_util">streamlit.auth_util</a>
