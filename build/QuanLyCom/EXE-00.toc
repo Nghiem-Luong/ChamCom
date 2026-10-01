@@ -71,7 +71,7 @@
  [],
  False,
  False,
- 1790851991,
+ 1790877979,
  [('run.exe',
    'D:\\PyCharm\\DuAn\\QuanLyCom\\.venv\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
    'EXECUTABLE')],

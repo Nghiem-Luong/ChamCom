@@ -1,0 +1,19 @@
+# --- Cấu hình của PyCharm ---
+.idea/
+
+# --- Python cache & Môi trường ảo ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+
+# --- Cơ sở dữ liệu (Database) ---
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Thư mục Backup & File tạm ---
+Backup/
+*.log
+.DS_Store
