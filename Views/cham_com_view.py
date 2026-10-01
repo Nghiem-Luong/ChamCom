@@ -3147,6 +3147,3 @@ def hien_thi_cham_com():
                 f"{text['open_confirm_failed']} "
                 f"{exc}"
             )
-
-
-hien_thi_cham_com()
