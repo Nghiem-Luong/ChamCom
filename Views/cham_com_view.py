@@ -672,12 +672,40 @@ def hien_thi_cham_com():
             )
 
             so_tien = item[6] or 0
+
+            try:
+                so_tien = int(float(so_tien))
+            except (
+                TypeError,
+                ValueError
+            ):
+                so_tien = 0
+
+            # ======================================================
+            # FIX DỮ LIỆU CŨ
+            # ======================================================
+            #
+            # Nếu nhân viên đã "Đăng ký" nhưng dữ liệu cũ trong DB
+            # có SoTienPhaiTra = 0 thì sử dụng đơn giá của ngày ăn.
+            #
+            # Nhờ đó:
+            #   13 người × 30.000 = 390.000
+            #
+            # thay vì bỏ sót những bản ghi có tiền = 0.
+            # ======================================================
+
+            if (
+                trang_thai == "Đăng ký"
+                and so_tien <= 0
+            ):
+                so_tien = don_gia
+
             ghi_chu = item[7] or ""
 
             du_lieu_theo_nguoi[nguoi_an_id] = {
                 "chi_tiet_id": item[0],
                 "trang_thai": trang_thai,
-                "so_tien": int(float(so_tien)),
+                "so_tien": so_tien,
                 "ghi_chu": ghi_chu,
             }
 
@@ -703,6 +731,10 @@ def hien_thi_cham_com():
         )
 
         return
+
+    # ==========================================================
+    # TÍNH TỔNG
+    # ==========================================================
 
     tong_dang_ky = 0
     tong_khong_an = 0
@@ -731,11 +763,35 @@ def hien_thi_cham_com():
             continue
 
         trang_thai = du_lieu["trang_thai"]
-        so_tien = du_lieu["so_tien"]
+
+        try:
+            so_tien = int(
+                float(
+                    du_lieu.get(
+                        "so_tien",
+                        0
+                    ) or 0
+                )
+            )
+        except (
+            TypeError,
+            ValueError
+        ):
+            so_tien = 0
 
         if trang_thai == "Đăng ký":
 
             tong_dang_ky += 1
+
+            # ==================================================
+            # QUAN TRỌNG:
+            # Nếu trạng thái là Đăng ký thì luôn phải có tiền
+            # bằng đơn giá tối thiểu của ngày ăn.
+            # ==================================================
+
+            if so_tien <= 0:
+                so_tien = don_gia
+
             tong_tien += so_tien
 
         elif trang_thai == "Đi công tác":
@@ -1123,6 +1179,18 @@ def hien_thi_cham_com():
                     nguoi_an_id
                 )
 
+                try:
+                    so_tien = int(
+                        float(
+                            so_tien or 0
+                        )
+                    )
+                except (
+                    TypeError,
+                    ValueError
+                ):
+                    so_tien = 0
+
                 if trang_thai_db == "Đăng ký":
 
                     da_an = 1
@@ -1370,17 +1438,6 @@ def hien_thi_cham_com():
 
         # ==========================================================
         # CÁC NÚT CHẤM NHANH
-        # ==========================================================
-        #
-        # Không pop status_key nữa.
-        #
-        # Sau khi lưu DB, ghi trực tiếp giá trị mới vào
-        # st.session_state của selectbox.
-        #
-        # Đồng thời cập nhật tiền cơm tương ứng.
-        #
-        # Khi st.rerun(), selectbox sẽ hiển thị đúng trạng thái
-        # vừa chấm nhanh.
         # ==========================================================
 
         with col1:
@@ -1780,15 +1837,6 @@ def hien_thi_cham_com():
                     text["business"],
                 ]
 
-                # ==================================================
-                # ĐỒNG BỘ STATE TỪ DATABASE
-                # ==================================================
-                #
-                # Không truyền index= vào selectbox.
-                # Giá trị của selectbox được quản lý duy nhất
-                # thông qua st.session_state.
-                # ==================================================
-
                 current_status_state = (
                     st.session_state.get(
                         status_key
@@ -1856,15 +1904,6 @@ def hien_thi_cham_com():
 
                 with col3:
 
-                    # ==================================================
-                    # FIX STREAMLIT SESSION STATE
-                    # ==================================================
-                    #
-                    # Không dùng index=selected_index ở đây.
-                    # status_key đã được khởi tạo trong session_state
-                    # ở phía trên.
-                    # ==================================================
-
                     st.selectbox(
                         text["status"],
                         status_options,
@@ -1879,12 +1918,31 @@ def hien_thi_cham_com():
 
                 with col4:
 
+                    # ==================================================
+                    # TÍNH TIỀN HIỂN THỊ
+                    # ==================================================
+                    #
+                    # Nếu trạng thái là Đăng ký nhưng DB cũ có tiền 0,
+                    # hiển thị đơn giá của ngày ăn.
+                    # ==================================================
+
                     if trang_thai_db == "Đăng ký":
 
-                        amount_value = int(
-                            so_tien_hien_tai
-                            or don_gia
-                        )
+                        try:
+                            amount_value = int(
+                                float(
+                                    so_tien_hien_tai
+                                    or 0
+                                )
+                            )
+                        except (
+                            TypeError,
+                            ValueError
+                        ):
+                            amount_value = 0
+
+                        if amount_value <= 0:
+                            amount_value = don_gia
 
                     else:
 
@@ -1896,8 +1954,6 @@ def hien_thi_cham_com():
 
                     with amount_col:
 
-                        # Khởi tạo state tiền nếu chưa có.
-                        # Không truyền value= vào number_input.
                         if amount_key not in st.session_state:
 
                             st.session_state[
@@ -2426,7 +2482,40 @@ def hien_thi_cham_com():
                                 )
                             )
 
-                            so_tien = item[6] or 0
+                            try:
+                                so_tien = float(
+                                    item[6] or 0
+                                )
+                            except (
+                                TypeError,
+                                ValueError
+                            ):
+                                so_tien = 0.0
+
+                            # ==========================================
+                            # FIX KHI CHỐT
+                            # ==========================================
+                            #
+                            # Nếu nhân viên đang Đăng ký nhưng dữ liệu
+                            # cũ có tiền = 0 thì khi chốt phải dùng
+                            # đơn giá ngày ăn.
+                            #
+                            # Điều này đảm bảo:
+                            #
+                            # Tổng trên màn hình = Tổng trong snapshot
+                            #
+                            # Ví dụ:
+                            # 13 người × 30.000 = 390.000
+                            # ==========================================
+
+                            if (
+                                trang_thai == "Đăng ký"
+                                and so_tien <= 0
+                            ):
+                                so_tien = float(
+                                    don_gia
+                                )
+
                             ghi_chu = item[7] or ""
 
                             danh_sach_chot.append(
@@ -2440,7 +2529,7 @@ def hien_thi_cham_com():
                                     "trang_thai":
                                         trang_thai,
                                     "so_tien":
-                                        float(so_tien),
+                                        so_tien,
                                     "ghi_chu":
                                         ghi_chu,
                                     "loai_nguoi":
@@ -2450,7 +2539,7 @@ def hien_thi_cham_com():
                                     "so_luong":
                                         1,
                                     "don_gia":
-                                        float(so_tien),
+                                        so_tien,
                                 }
                             )
 
